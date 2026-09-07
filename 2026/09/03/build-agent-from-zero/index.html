@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="从 0 到 1 搭一个 Agent：用工具调用、状态、评估和权限建立一个可控的最小 Agent 系统。">
+  <meta name="theme-color" content="#f7f1e6">
+  <link rel="canonical" href="https://mrzouning.github.io/2026/09/03/build-agent-from-zero/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="从 0 到 1 搭一个 Agent · 小邹博客">
+  <meta property="og:description" content="用工具调用、状态、评估和权限建立一个可控的最小 Agent 系统。">
+  <meta property="og:url" content="https://mrzouning.github.io/2026/09/03/build-agent-from-zero/">
+  <meta property="og:site_name" content="小邹博客">
+  <title>从 0 到 1 搭一个 Agent · 小邹博客</title>
+  <link rel="stylesheet" href="/main.css">
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#main-content">跳到主要内容</a>
+  <header class="site-header" data-header><div class="site-header__inner"><a class="brand" href="/" aria-label="小邹博客首页"><span class="brand__mark">z.</span><span class="brand__copy"><strong>Mr zou</strong><small>notes / things / life</small></span></a><nav class="site-nav" aria-label="主导航"><a href="/">首页</a><a class="is-active" href="/#notes">随笔</a><a href="/archives/">归档</a><a href="/#about">关于</a></nav><div class="header-actions"><button class="icon-button" type="button" data-theme-toggle aria-pressed="false" aria-label="切换深色模式"><span data-theme-icon>☼</span></button><a class="text-link header-back" href="/">回到首页 <span>↗</span></a></div></div></header>
+  <main id="main-content"><div class="article-wrap page-width"><div class="article-breadcrumb"><a href="/">首页</a><span>/</span><a href="/#notes">随笔</a><span>/</span><span>2026.09.03</span></div><article class="article-content"><header class="article-header reveal is-visible"><p class="eyebrow">05 / AGENT BUILD</p><h1>从 0 到 1，<br><em>搭一个 Agent。</em></h1><p class="article-lead">Agent 不是给聊天机器人加一个更酷的名字，而是让模型在明确边界里观察、选择、行动、获得反馈，并知道什么时候应该停下来。</p><div class="article-meta"><time datetime="2026-09-03">2026 年 9 月 3 日</time><span>·</span><span>约 16 分钟阅读</span></div></header><div class="article-grid"><aside class="article-aside"><span>ON THIS PAGE</span><a href="#definition">先定义 Agent</a><a href="#tool">工具调用</a><a href="#state">状态与循环</a><a href="#eval">评估与日志</a><a href="#permission">权限边界</a><a href="#small">从最小系统开始</a></aside><div class="article-entry">
+    <p>“Agent”这个词很容易让人联想到一个会自主完成所有事情的智能体，但工程上更准确的理解是：模型负责在当前上下文中决定下一步，工具负责改变外部世界，系统负责保存状态、限制权限和检查结果。</p>
+    <p>因此，一个值得搭建的 Agent 不应该从“让它更自主”开始，而应该从一个边界清楚、输入稳定、结果可验收的小任务开始。先做出最小闭环，再逐步增加记忆、并行和多角色协作。</p>
+    <blockquote><p>Agent 的智能来自模型，Agent 的可靠性来自系统设计。</p></blockquote>
+    <h2 id="definition">一、先定义一个足够小的 Agent</h2>
+    <p>我选择的练习任务是“读取一份项目说明，列出需要确认的问题，并生成一份结构化任务清单”。它有明确输入，也有明确输出，不需要直接触碰生产数据。</p>
+    <div class="article-table-wrap"><table><thead><tr><th>要素</th><th>定义</th><th>为什么重要</th></tr></thead><tbody>
+      <tr><td>输入</td><td>项目目标、约束和已有资料</td><td>减少模型凭空补全</td></tr>
+      <tr><td>工具</td><td>读取文档、保存任务、查询状态</td><td>让行动可被观察</td></tr>
+      <tr><td>输出</td><td>问题列表、任务列表、依据和置信度</td><td>方便验收和人工修改</td></tr>
+      <tr><td>停止条件</td><td>完成、失败、超预算或需要人确认</td><td>避免无限循环</td></tr>
+    </tbody></table></div>
+    <p>这四个要素比“使用哪一个模型”更先决定系统能不能落地。模型可以更换，但输入输出合同和停止条件应该尽量稳定。</p>
+    <h2 id="tool">二、工具调用：让行动有明确的接口</h2>
+    <p>如果让模型直接输出一段自然语言“我已经创建了任务”，系统无法知道它是否真的创建成功。正确做法是给它一个结构化工具：</p>
+    <pre><code>{
+  "name": "create_task",
+  "description": "创建一条待办任务",
+  "parameters": {
+    "title": "string",
+    "owner": "string",
+    "dueDate": "string|null",
+    "source": "string"
+  }
+}</code></pre>
+    <p>工具定义要说明三件事：什么时候应该使用、参数必须满足什么格式、调用成功后返回什么。参数越含糊，模型越容易把行动变成一段看起来像行动的文字。</p>
+    <div class="article-callout"><strong>工具设计的最小原则</strong><p>输入结构化、权限最小化、结果可验证、失败可重试、动作可撤销。不要一开始就给 Agent 一个“执行任意命令”的万能工具。</p></div>
+    <h2 id="state">三、状态与循环：Agent 不是一次调用</h2>
+    <div class="article-flow"><span><b>01 / OBSERVE</b>读取当前状态</span><span><b>02 / DECIDE</b>选择下一步</span><span><b>03 / ACT</b>调用工具</span><span><b>04 / CHECK</b>检查反馈</span></div>
+    <p>一个最小 Agent 可以被看成一个有限循环：</p>
+    <ol>
+      <li>读取用户目标和当前状态。</li>
+      <li>让模型选择“回答、调用工具、请求澄清或停止”。</li>
+      <li>如果选择工具，校验参数并执行。</li>
+      <li>把工具结果写回状态，再进入下一轮。</li>
+      <li>达到完成、失败或预算上限时结束。</li>
+    </ol>
+    <p>状态里至少应该包含目标、已完成动作、工具结果、待确认问题、错误信息和预算。不要只把完整对话历史无限塞回模型，长上下文会增加成本，也会让重要信息更难被注意到。</p>
+    <h3>一个简单的预算</h3>
+    <p>我会给每次运行设置最大 8 轮、最多 5 次工具调用、最长 2 分钟和固定 token 上限。达到任一上限就暂停，并把当前状态交给人处理。</p>
+    <h2 id="eval">四、没有评估，Agent 只是演示</h2>
+    <p>Agent 的问题往往不是“能不能跑”，而是“十次运行有几次做对”。因此需要准备一组小型评测集，覆盖正常任务、缺少资料、工具失败、权限不足和用户中途修改目标等情况。</p>
+    <div class="article-table-wrap"><table><thead><tr><th>测试场景</th><th>期望行为</th><th>观察指标</th></tr></thead><tbody>
+      <tr><td>资料完整</td><td>生成任务并引用来源</td><td>结构正确率、引用准确率</td></tr>
+      <tr><td>资料缺失</td><td>提出澄清问题，不自行编造</td><td>拒答质量、问题相关性</td></tr>
+      <tr><td>工具失败</td><td>重试一次或清楚报告失败</td><td>错误解释、重复调用次数</td></tr>
+      <tr><td>高风险动作</td><td>暂停并请求人工确认</td><td>拦截率、误执行率</td></tr>
+    </tbody></table></div>
+    <p>每次修改提示词、工具定义或模型版本，都重新跑一遍这组测试。记录输入、模型选择、工具调用、最终输出和人工评分，才能知道系统到底是在进步还是只是在某个例子上变得更会说。</p>
+    <h2 id="permission">五、权限边界：让 Agent 知道什么不能做</h2>
+    <p>权限应该从只读开始，再逐步增加。一个用于整理项目资料的 Agent，不需要发送邮件、删除文件或修改生产数据库。把工具分成只读、可写和高风险三类，并给高风险动作增加人工确认。</p>
+    <ul>
+      <li><strong>只读：</strong>搜索资料、读取文件、查询状态。</li>
+      <li><strong>可写：</strong>创建草稿、保存任务、生成报告。</li>
+      <li><strong>高风险：</strong>发布内容、发送消息、删除数据、修改线上配置。</li>
+    </ul>
+    <p>同时要记录“谁在什么时候以什么理由调用了什么工具”。日志不仅是出问题后的调查材料，也是评估 Agent 是否真的减少了工作量的基础。</p>
+    <h2 id="small">六、从最小系统开始，再谈多 Agent</h2>
+    <p>我建议的迭代顺序是：</p>
+    <ol>
+      <li>一个模型 + 一个只读工具。</li>
+      <li>加入结构化输出和参数校验。</li>
+      <li>加入状态、预算和错误处理。</li>
+      <li>加入评测集和日志。</li>
+      <li>确认单 Agent 的边界后，再拆成规划、执行和审查角色。</li>
+    </ol>
+    <p>多 Agent 不会自动带来更高质量。角色之间的交接会增加上下文成本，也会放大错误。只有当一个角色已经有稳定输入输出合同，拆分它才有意义。</p>
+    <div class="article-callout"><strong>我的起步清单</strong><p>一个真实任务、一个只读工具、一个结构化输出、一个停止条件、一个评测集和一个人工确认点。把这六件事做好，已经足够建立第一个可靠的 Agent 原型。</p></div>
+    <p>Agent 的终点不是让人退出流程，而是把人的判断放到最有价值的位置：定义目标、处理例外、批准高风险动作，并持续改进系统的边界。</p>
+    <div class="article-signoff"><span>— Mr zou</span><span>start small, stay observable ✳</span></div>
+  </div></div></article></div></main>
+  <footer class="site-footer page-width"><div class="article-nav"><a href="/2026/09/04/ai-project-workflow/">上一篇：AI 实战工作流 ↗</a><a class="article-nav__next" href="/archives/">查看全部归档 ↗</a></div><div class="footer-bottom"><span>© <span data-current-year>2026</span> Mr zou</span><span><a href="/archives/">查看全部文章 ↗</a></span></div></footer>
+  <script src="/main.js"></script>
+</body>
+</html>

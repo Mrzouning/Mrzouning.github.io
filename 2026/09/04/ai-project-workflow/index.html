@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="我如何用 AI 完成一个真实项目：从需求澄清、方案设计、编码测试到上线复盘的完整工作流。">
+  <meta name="theme-color" content="#f7f1e6">
+  <link rel="canonical" href="https://mrzouning.github.io/2026/09/04/ai-project-workflow/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="我如何用 AI 完成一个真实项目 · 小邹博客">
+  <meta property="og:description" content="从需求澄清、方案设计、编码测试到上线复盘的完整 AI 工作流。">
+  <meta property="og:url" content="https://mrzouning.github.io/2026/09/04/ai-project-workflow/">
+  <meta property="og:site_name" content="小邹博客">
+  <title>我如何用 AI 完成一个真实项目 · 小邹博客</title>
+  <link rel="stylesheet" href="/main.css">
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#main-content">跳到主要内容</a>
+  <header class="site-header" data-header><div class="site-header__inner"><a class="brand" href="/" aria-label="小邹博客首页"><span class="brand__mark">z.</span><span class="brand__copy"><strong>Mr zou</strong><small>notes / things / life</small></span></a><nav class="site-nav" aria-label="主导航"><a href="/">首页</a><a class="is-active" href="/#notes">随笔</a><a href="/archives/">归档</a><a href="/#about">关于</a></nav><div class="header-actions"><button class="icon-button" type="button" data-theme-toggle aria-pressed="false" aria-label="切换深色模式"><span data-theme-icon>☼</span></button><a class="text-link header-back" href="/">回到首页 <span>↗</span></a></div></div></header>
+  <main id="main-content"><div class="article-wrap page-width"><div class="article-breadcrumb"><a href="/">首页</a><span>/</span><a href="/#notes">随笔</a><span>/</span><span>2026.09.04</span></div><article class="article-content"><header class="article-header reveal is-visible"><p class="eyebrow">04 / AI PRACTICE</p><h1>我如何用 AI，<br><em>完成一个真实项目。</em></h1><p class="article-lead">AI 真正有价值的时刻，不是它一次写出多少代码，而是它能不能参与一个有约束、有验收、有上线结果的完整交付。</p><div class="article-meta"><time datetime="2026-09-04">2026 年 9 月 4 日</time><span>·</span><span>约 14 分钟阅读</span></div></header><div class="article-grid"><aside class="article-aside"><span>ON THIS PAGE</span><a href="#problem">先定义问题</a><a href="#workflow">完整工作流</a><a href="#roles">人机分工</a><a href="#evidence">交付证据</a><a href="#failure">失败与修正</a><a href="#replay">复盘方法</a></aside><div class="article-entry">
+    <p>很多文章会展示 AI 生成了一个漂亮页面，却很少展示它如何面对真实需求中的不确定性：需求会变、旧代码会脏、接口会失败、测试会暴露矛盾，最后还要有人为结果负责。对我来说，判断 AI 是否真的帮上忙，最可靠的方式是把它放进一个真实项目里。</p>
+    <p>这次实践的目标不是让 AI 包办开发，而是观察它在一个小型网站改造中，能否参与需求拆解、内容生产、界面实现、代码检查和发布验证，并把每一步留下可复盘的证据。</p>
+    <blockquote><p>AI 编程的核心问题不是“能不能生成”，而是“生成之后，谁来判断它是否值得被合并”。</p></blockquote>
+    <h2 id="problem">一、先定义问题，而不是先打开模型</h2>
+    <p>我先把需求写成一页任务说明，而不是直接对模型说“帮我改得更好看”。任务说明包含四部分：</p>
+    <div class="article-table-wrap"><table><thead><tr><th>部分</th><th>写清楚什么</th><th>本次示例</th></tr></thead><tbody>
+      <tr><td>目标</td><td>最终要让谁获得什么结果</td><td>让访客更快理解博客主题和作者能力</td></tr>
+      <tr><td>范围</td><td>这次要改哪些页面</td><td>首页、文章页、归档页和项目说明</td></tr>
+      <tr><td>约束</td><td>不能破坏什么</td><td>保留静态部署、移动端布局和现有视觉语言</td></tr>
+      <tr><td>验收</td><td>怎样证明完成</td><td>链接可用、搜索可用、页面返回 200、代码检查通过</td></tr>
+    </tbody></table></div>
+    <p>这一步看起来不像“使用 AI”，却决定了后面每次对话的质量。如果目标、边界和验收方式没有写出来，模型很容易给出一堆局部正确但无法交付的建议。</p>
+    <h2 id="workflow">二、把项目拆成一条可检查的链</h2>
+    <div class="article-flow"><span><b>01 / FRAME</b>定义目标</span><span><b>02 / DESIGN</b>设计方案</span><span><b>03 / BUILD</b>实现改动</span><span><b>04 / VERIFY</b>验证结果</span></div>
+    <p>我把项目拆成四个阶段，每个阶段都有一个明确产物。阶段之间不依赖“模型记得上一轮说过什么”，而依赖一份可以重新阅读的中间文档。</p>
+    <h3>1. Frame：让模型先问问题</h3>
+    <p>第一轮不让模型写代码，只让它指出需求中的歧义、缺失信息和可能的风险。比如：项目展示是否必须是真实项目？联系邮箱是否已经确定？新文章是否需要同步归档？这些问题比直接生成一段 HTML 更有价值。</p>
+    <h3>2. Design：让方案能够被验收</h3>
+    <p>设计阶段产出页面结构、内容优先级、数据字段和验收清单。每个建议都要回答“为什么做”和“如何验证”，否则设计很容易变成漂亮的形容词。</p>
+    <h3>3. Build：让 AI 处理局部、连续的垂直切片</h3>
+    <p>实现时，我让 AI 一次处理一个垂直切片：先完成真实联系方式和 GitHub 入口，再做搜索，再做项目展示，最后做文章和归档。每个切片都在本地验证后才继续，这样错误不会在最后集中爆炸。</p>
+    <h3>4. Verify：把“看起来可以”变成证据</h3>
+    <p>验证同时覆盖源码和页面：检查 HTML 结构、脚本语法、链接状态、移动端断点、键盘焦点和页面是否能通过静态服务器正常打开。AI 可以帮忙列检查项，但最终结果必须来自实际执行。</p>
+    <h2 id="roles">三、人和 AI 分别负责什么</h2>
+    <p>一个有效的分工不是“人负责想，AI 负责做”，而是按照风险和反馈速度分配责任：</p>
+    <div class="article-table-wrap"><table><thead><tr><th>角色</th><th>适合交给 AI</th><th>必须由人确认</th></tr></thead><tbody>
+      <tr><td>研究者</td><td>整理资料、比较方案、发现遗漏</td><td>资料是否可信、是否适用于当前项目</td></tr>
+      <tr><td>设计师</td><td>生成结构、文案变体、状态清单</td><td>品牌语气、信息层级和真实取舍</td></tr>
+      <tr><td>工程师</td><td>编写局部代码、补测试、解释报错</td><td>架构边界、数据安全和最终合并</td></tr>
+      <tr><td>审查者</td><td>寻找死链、遗漏、重复和边界问题</td><td>是否真的满足用户目标</td></tr>
+    </tbody></table></div>
+    <p>我最常用的提示结构是：先给背景，再给当前文件，再给不变量，最后给验收条件。相比一句“帮我优化”，这种上下文更像把 AI 放进一个清晰的工作环境。</p>
+    <pre><code>背景：这是一个无构建步骤的 GitHub Pages 博客
+目标：增加项目展示，但保持现有纸张、绿色和红色视觉语言
+不变量：不能破坏文章链接、移动端布局和深色模式
+验收：桌面和 375px 宽度可读，新增链接可访问，git diff --check 通过</code></pre>
+    <h2 id="evidence">四、交付不能只展示最终截图</h2>
+    <p>一个可信的 AI 项目案例，至少要留下四类证据：</p>
+    <ol>
+      <li><strong>输入证据：</strong>原始需求、上下文和约束是什么。</li>
+      <li><strong>过程证据：</strong>模型提出过哪些方案，人为什么选择其中一个。</li>
+      <li><strong>结果证据：</strong>页面、测试、链接和部署是否真的可用。</li>
+      <li><strong>失败证据：</strong>哪些生成结果被舍弃，原因是什么。</li>
+    </ol>
+    <p>这四类证据能把“AI 帮我做了一个页面”变成“我知道如何把 AI 放进一条可控的交付流程”。后者才是可迁移的能力。</p>
+    <h2 id="failure">五、失败最多的地方，恰恰最值得记录</h2>
+    <p>这次实践里，最容易出错的不是写 CSS，而是同步关系。增加文章后，首页卡片、总归档、年度归档、月份归档、RSS 和站点地图都需要更新；如果只改一个入口，读者就会遇到“首页有文章、归档找不到”的不一致。</p>
+    <div class="article-callout"><strong>一次失败的修正方式</strong><p>当页面看起来没有更新时，不先猜缓存，而是依次核对本地文件、Git 提交、远端分支、GitHub Pages 构建和线上 URL。把问题拆成可观察的节点，比反复刷新更快找到原因。</p></div>
+    <p>另一个教训是不要一次让模型重写整个仓库。大范围生成通常会带来隐藏的文案变化、重复样式和遗漏链接。小步切片虽然慢一点，却更容易比较差异、回滚和确认。</p>
+    <h2 id="replay">六、我的复盘模板</h2>
+    <p>每次项目结束，我会用五个问题做复盘：</p>
+    <ol>
+      <li>AI 替我减少了哪一类重复劳动？</li>
+      <li>哪一步仍然需要我的领域判断？</li>
+      <li>哪一种上下文最能提高输出质量？</li>
+      <li>这次出现的错误，怎样变成下一次的测试用例？</li>
+      <li>如果模型换了、工具坏了，这套流程还能不能继续？</li>
+    </ol>
+    <p>最终我得到的不是一组“神奇提示词”，而是一套能够迁移到下一个项目的工作方式：定义问题、准备上下文、分段执行、保留证据、验证结果，并在人应该负责的地方停下来。</p>
+    <div class="article-signoff"><span>— Mr zou</span><span>ship with evidence ✳</span></div>
+  </div></div></article></div></main>
+  <footer class="site-footer page-width"><div class="article-nav"><a href="/archives/">全部文章 <span>↗</span></a><a class="article-nav__next" href="/2026/09/03/build-agent-from-zero/">下一篇：从 0 到 1 搭一个 Agent ↗</a></div><div class="footer-bottom"><span>© <span data-current-year>2026</span> Mr zou</span><span><a href="/archives/">查看全部文章 ↗</a></span></div></footer>
+  <script src="/main.js"></script>
+</body>
+</html>
