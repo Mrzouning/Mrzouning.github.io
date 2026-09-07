@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f7f1e6"/>
+  <path d="M50 90 1130 45 1170 540 90 585Z" fill="#2e5d4d"/>
+  <path d="M115 110 1040 80 1080 505 145 540Z" fill="#fffaf1" transform="rotate(-3 600 315)"/>
+  <circle cx="1020" cy="115" r="54" fill="none" stroke="#b84f38" stroke-width="3"/>
+  <text x="1020" y="132" fill="#b84f38" font-family="Georgia, serif" font-size="54" font-weight="700" text-anchor="middle">z.</text>
+  <text x="170" y="190" fill="#2e5d4d" font-family="Arial, sans-serif" font-size="24" font-weight="700" letter-spacing="6">MR ZOU / NOTES</text>
+  <text x="165" y="310" fill="#17211e" font-family="Georgia, 'Songti SC', serif" font-size="82">把想法，</text>
+  <text x="165" y="410" fill="#b84f38" font-family="Georgia, 'Songti SC', serif" font-size="82">写成日常。</text>
+  <path d="M170 455h250" stroke="#f0c969" stroke-width="14"/>
+  <text x="170" y="510" fill="#6f766d" font-family="Arial, sans-serif" font-size="20" letter-spacing="3">AI · ENGINEERING · LIFE</text>
+</svg>

@@ -5,18 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="从 0 到 1 搭一个 Agent：用工具调用、状态、评估和权限建立一个可控的最小 Agent 系统。">
   <meta name="theme-color" content="#f7f1e6">
+  <meta name="author" content="小邹">
   <link rel="canonical" href="https://mrzouning.github.io/2026/09/03/build-agent-from-zero/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.svg">
+  <link rel="alternate" type="application/rss+xml" title="小邹博客 RSS" href="/feed.xml">
   <meta property="og:type" content="article">
   <meta property="og:title" content="从 0 到 1 搭一个 Agent · 小邹博客">
   <meta property="og:description" content="用工具调用、状态、评估和权限建立一个可控的最小 Agent 系统。">
   <meta property="og:url" content="https://mrzouning.github.io/2026/09/03/build-agent-from-zero/">
   <meta property="og:site_name" content="小邹博客">
+  <meta property="og:image" content="https://mrzouning.github.io/social-card.svg">
+  <meta name="twitter:card" content="summary_large_image">
   <title>从 0 到 1 搭一个 Agent · 小邹博客</title>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BlogPosting","headline":"从 0 到 1 搭一个 Agent","description":"用工具调用、状态、评估和权限建立一个可控的最小 Agent 系统。","datePublished":"2026-09-03","dateModified":"2026-09-03","mainEntityOfPage":{"@type":"WebPage","@id":"https://mrzouning.github.io/2026/09/03/build-agent-from-zero/"},"author":{"@type":"Person","name":"小邹","url":"https://github.com/Mrzouning"},"publisher":{"@type":"Person","name":"小邹"},"inLanguage":"zh-CN"}
+  </script>
   <link rel="stylesheet" href="/main.css">
 </head>
 <body class="article-page">
   <a class="skip-link" href="#main-content">跳到主要内容</a>
-  <header class="site-header" data-header><div class="site-header__inner"><a class="brand" href="/" aria-label="小邹博客首页"><span class="brand__mark">z.</span><span class="brand__copy"><strong>Mr zou</strong><small>notes / things / life</small></span></a><nav class="site-nav" aria-label="主导航"><a href="/">首页</a><a class="is-active" href="/#notes">随笔</a><a href="/archives/">归档</a><a href="/#about">关于</a></nav><div class="header-actions"><button class="icon-button" type="button" data-theme-toggle aria-pressed="false" aria-label="切换深色模式"><span data-theme-icon>☼</span></button><a class="text-link header-back" href="/">回到首页 <span>↗</span></a></div></div></header>
+  <header class="site-header" data-header><div class="site-header__inner"><a class="brand" href="/" aria-label="小邹博客首页"><span class="brand__mark">z.</span><span class="brand__copy"><strong>Mr zou</strong><small>notes / things / life</small></span></a><nav class="site-nav" aria-label="主导航"><a href="/">首页</a><a class="is-active" href="/#notes" aria-current="page">随笔</a><a href="/archives/">归档</a><a href="/#about">关于</a></nav><div class="header-actions"><button class="icon-button" type="button" data-theme-toggle aria-pressed="false" aria-label="切换深色模式"><span data-theme-icon>☼</span></button><a class="text-link header-back" href="/">回到首页 <span>↗</span></a></div></div></header>
   <main id="main-content"><div class="article-wrap page-width"><div class="article-breadcrumb"><a href="/">首页</a><span>/</span><a href="/#notes">随笔</a><span>/</span><span>2026.09.03</span></div><article class="article-content"><header class="article-header reveal is-visible"><p class="eyebrow">05 / AGENT BUILD</p><h1>从 0 到 1，<br><em>搭一个 Agent。</em></h1><p class="article-lead">Agent 不是给聊天机器人加一个更酷的名字，而是让模型在明确边界里观察、选择、行动、获得反馈，并知道什么时候应该停下来。</p><div class="article-meta"><time datetime="2026-09-03">2026 年 9 月 3 日</time><span>·</span><span>约 16 分钟阅读</span></div></header><div class="article-grid"><aside class="article-aside"><span>ON THIS PAGE</span><a href="#definition">先定义 Agent</a><a href="#tool">工具调用</a><a href="#state">状态与循环</a><a href="#eval">评估与日志</a><a href="#permission">权限边界</a><a href="#small">从最小系统开始</a></aside><div class="article-entry">
     <p>“Agent”这个词很容易让人联想到一个会自主完成所有事情的智能体，但工程上更准确的理解是：模型负责在当前上下文中决定下一步，工具负责改变外部世界，系统负责保存状态、限制权限和检查结果。</p>
     <p>因此，一个值得搭建的 Agent 不应该从“让它更自主”开始，而应该从一个边界清楚、输入稳定、结果可验收的小任务开始。先做出最小闭环，再逐步增加记忆、并行和多角色协作。</p>
@@ -89,6 +98,7 @@
     <div class="article-signoff"><span>— Mr zou</span><span>start small, stay observable ✳</span></div>
   </div></div></article></div></main>
   <footer class="site-footer page-width"><div class="article-nav"><a href="/2026/09/04/ai-project-workflow/">上一篇：AI 实战工作流 ↗</a><a class="article-nav__next" href="/archives/">查看全部归档 ↗</a></div><div class="footer-bottom"><span>© <span data-current-year>2026</span> Mr zou</span><span><a href="/archives/">查看全部文章 ↗</a></span></div></footer>
+  <script src="/search-index.js"></script>
   <script src="/main.js"></script>
 </body>
 </html>

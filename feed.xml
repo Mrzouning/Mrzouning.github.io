@@ -6,6 +6,7 @@
     <description>记录 AI 学习、Agent 协作、前端工程、项目实践与生活。</description>
     <language>zh-CN</language>
     <lastBuildDate>Mon, 07 Sep 2026 00:00:00 GMT</lastBuildDate>
+    <item><title>把博客改造成长期可维护的个人站</title><link>https://mrzouning.github.io/2026/09/07/blog-redesign-review/</link><guid>https://mrzouning.github.io/2026/09/07/blog-redesign-review/</guid><pubDate>Mon, 07 Sep 2026 00:00:00 GMT</pubDate><description>从内容、搜索、响应式布局到发布验证，记录一次静态博客的真实改造过程。</description></item>
     <item><title>学习 AI，从工具到能力</title><link>https://mrzouning.github.io/2026/09/07/learning-ai-skills/</link><guid>https://mrzouning.github.io/2026/09/07/learning-ai-skills/</guid><pubDate>Mon, 07 Sep 2026 00:00:00 GMT</pubDate><description>把提示词、上下文、工具调用、评估和安全，拆成一张可以练习与展示的技能地图。</description></item>
     <item><title>AI 如何改变互联网</title><link>https://mrzouning.github.io/2026/09/06/ai-internet-impact/</link><guid>https://mrzouning.github.io/2026/09/06/ai-internet-impact/</guid><pubDate>Sun, 06 Sep 2026 00:00:00 GMT</pubDate><description>搜索、内容、产品、工作方式和平台结构正在发生什么变化。</description></item>
     <item><title>模型与 Agent，怎样一起工作</title><link>https://mrzouning.github.io/2026/09/05/models-and-agents/</link><guid>https://mrzouning.github.io/2026/09/05/models-and-agents/</guid><pubDate>Sat, 05 Sep 2026 00:00:00 GMT</pubDate><description>从模型路由、角色分工到多 Agent 协作系统。</description></item>

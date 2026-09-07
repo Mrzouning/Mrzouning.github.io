@@ -12,6 +12,39 @@
   var mobileMenu = document.querySelector('[data-mobile-menu]');
   var currentYear = document.querySelector('[data-current-year]');
 
+  function ensureSearchUI() {
+    if (!header) return;
+    var headerActions = header.querySelector('.header-actions');
+    if (!headerActions) return;
+
+    if (!searchToggle) {
+      searchToggle = document.createElement('button');
+      searchToggle.className = 'icon-button';
+      searchToggle.type = 'button';
+      searchToggle.setAttribute('data-search-toggle', '');
+      searchToggle.setAttribute('aria-expanded', 'false');
+      searchToggle.setAttribute('aria-controls', 'site-search-drawer');
+      searchToggle.setAttribute('aria-label', '打开搜索');
+      searchToggle.title = '搜索';
+      searchToggle.innerHTML = '<span aria-hidden="true">⌕</span>';
+      headerActions.insertBefore(searchToggle, headerActions.firstChild);
+    }
+
+    if (!searchDrawer) {
+      searchDrawer = document.createElement('div');
+      searchDrawer.className = 'search-drawer';
+      searchDrawer.id = 'site-search-drawer';
+      searchDrawer.setAttribute('data-search-drawer', '');
+      searchDrawer.innerHTML = '<label for="site-search">搜索这个博客</label><input id="site-search" type="search" placeholder="输入关键词，比如：AI、Agent、项目" autocomplete="off"><span class="search-hint">Esc 关闭</span><div class="search-results" data-search-results aria-live="polite"></div>';
+      header.appendChild(searchDrawer);
+    }
+
+    searchInput = searchDrawer.querySelector('#site-search');
+    searchResults = searchDrawer.querySelector('[data-search-results]');
+  }
+
+  ensureSearchUI();
+
   function setTheme(theme) {
     root.dataset.theme = theme;
     if (themeIcon) themeIcon.textContent = theme === 'dark' ? '☾' : '☼';
@@ -89,16 +122,42 @@
     revealItems.forEach(function (item) { revealObserver.observe(item); });
   } else revealItems.forEach(function (item) { item.classList.add('is-visible'); });
 
+  var tocLinks = document.querySelectorAll('.article-aside a[href^="#"]');
+  var tocSections = Array.prototype.map.call(tocLinks, function (link) {
+    return document.querySelector(link.getAttribute('href'));
+  }).filter(Boolean);
+  function setActiveToc(sectionId) {
+    tocLinks.forEach(function (link) {
+      var active = link.getAttribute('href') === '#' + sectionId;
+      link.classList.toggle('is-active', active);
+      if (active) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
+    });
+  }
+  if (tocSections.length) {
+    setActiveToc(tocSections[0].id);
+    if ('IntersectionObserver' in window) {
+      var tocObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) setActiveToc(entry.target.id);
+        });
+      }, { rootMargin: '-18% 0px -68% 0px', threshold: 0 });
+      tocSections.forEach(function (section) { tocObserver.observe(section); });
+    }
+  }
+
   var filterButtons = document.querySelectorAll('[data-filter]');
   var noteCards = document.querySelectorAll('[data-category]');
-  var searchIndex = Array.prototype.map.call(noteCards, function (card) {
+  var cardSearchIndex = Array.prototype.map.call(noteCards, function (card) {
     return {
       href: card.getAttribute('href'),
       title: (card.querySelector('h3') || {}).textContent || '',
       description: (card.querySelector('p') || {}).textContent || '',
-      category: card.dataset.category || ''
+      category: card.dataset.category || '',
+      categoryLabel: card.dataset.category || ''
     };
   });
+  var searchIndex = Array.isArray(window.blogSearchIndex) && window.blogSearchIndex.length ? window.blogSearchIndex : cardSearchIndex;
 
   function renderSearchResults(value) {
     if (!searchResults) return;
@@ -106,7 +165,7 @@
     searchResults.innerHTML = '';
     if (!query) return;
     var matches = searchIndex.filter(function (item) {
-      return (item.title + ' ' + item.description + ' ' + item.category).toLowerCase().indexOf(query) !== -1;
+      return (item.title + ' ' + item.description + ' ' + item.category + ' ' + (item.content || '') + ' ' + (item.keywords || '')).toLowerCase().indexOf(query) !== -1;
     }).slice(0, 6);
     if (!matches.length) {
       var empty = document.createElement('p');
@@ -122,7 +181,7 @@
       var title = document.createElement('span');
       title.textContent = item.title;
       var category = document.createElement('small');
-      category.textContent = item.category;
+      category.textContent = item.categoryLabel || item.category;
       link.appendChild(title);
       link.appendChild(category);
       searchResults.appendChild(link);

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="记录一次 GitHub Pages 静态博客改造：从内容结构、全站搜索、响应式布局到 SEO 和发布验证。">
+  <meta name="theme-color" content="#f7f1e6">
+  <meta name="author" content="小邹">
+  <link rel="canonical" href="https://mrzouning.github.io/2026/09/07/blog-redesign-review/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.svg">
+  <link rel="alternate" type="application/rss+xml" title="小邹博客 RSS" href="/feed.xml">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="把博客改造成长期可维护的个人站 · 小邹博客">
+  <meta property="og:description" content="从内容、搜索、响应式布局到发布验证，记录一次静态博客的真实改造过程。">
+  <meta property="og:url" content="https://mrzouning.github.io/2026/09/07/blog-redesign-review/">
+  <meta property="og:site_name" content="小邹博客">
+  <meta property="og:image" content="https://mrzouning.github.io/social-card.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>把博客改造成长期可维护的个人站 · 小邹博客</title>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BlogPosting","headline":"把博客改造成长期可维护的个人站","description":"从内容、搜索、响应式布局到发布验证，记录一次静态博客的真实改造过程。","datePublished":"2026-09-07","dateModified":"2026-09-07","mainEntityOfPage":{"@type":"WebPage","@id":"https://mrzouning.github.io/2026/09/07/blog-redesign-review/"},"author":{"@type":"Person","name":"小邹","url":"https://github.com/Mrzouning"},"publisher":{"@type":"Person","name":"小邹"},"inLanguage":"zh-CN"}
+  </script>
+  <link rel="stylesheet" href="/main.css">
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#main-content">跳到主要内容</a>
+  <header class="site-header" data-header><div class="site-header__inner"><a class="brand" href="/" aria-label="小邹博客首页"><span class="brand__mark">z.</span><span class="brand__copy"><strong>Mr zou</strong><small>notes / things / life</small></span></a><nav class="site-nav" aria-label="主导航"><a href="/">首页</a><a class="is-active" href="/#notes" aria-current="page">随笔</a><a href="/archives/">归档</a><a href="/#about">关于</a></nav><div class="header-actions"><button class="icon-button" type="button" data-theme-toggle aria-pressed="false" aria-label="切换深色模式"><span data-theme-icon>☼</span></button><a class="text-link header-back" href="/">回到首页 <span>↗</span></a></div></div></header>
+  <main id="main-content"><div class="article-wrap page-width"><div class="article-breadcrumb"><a href="/">首页</a><span>/</span><a href="/#notes">随笔</a><span>/</span><span>2026.09.07</span></div><article class="article-content"><header class="article-header reveal is-visible"><p class="eyebrow">01 / ENGINEERING CASE</p><h1>把博客改造成<br><em>长期可维护的个人站。</em></h1><p class="article-lead">这次改造不是换一个漂亮首页，而是把一个能打开的博客，变成一个方便阅读、方便搜索、方便维护，也能留下真实项目证据的小型个人站。</p><div class="article-meta"><time datetime="2026-09-07">2026 年 9 月 7 日</time><span>·</span><span>约 11 分钟阅读</span></div></header><div class="article-grid"><aside class="article-aside"><span>ON THIS PAGE</span><a href="#starting-point">从哪里开始</a><a href="#decisions">做了哪些决定</a><a href="#implementation">如何实现</a><a href="#verification">如何验证</a><a href="#tradeoffs">保留哪些取舍</a><a href="#next">下一步计划</a></aside><div class="article-entry">
+    <p>一个个人博客最容易陷入两个极端：要么只是一个能发布文章的模板，要么一开始就加入太多复杂功能，最后连写一篇文章都变成维护工程。我的目标是找到中间的位置：保持 GitHub Pages 的轻量和透明，同时让内容结构、搜索、导航、SEO 和发布流程足够可靠。</p>
+    <p>这篇文章记录的对象就是这个博客本身。所有链接、页面和功能都可以在 <a href="https://github.com/Mrzouning/Mrzouning.github.io" target="_blank" rel="noopener">GitHub 仓库</a>里查看。这里不把“改完了”当成结果，而是尽量留下可检查的证据。</p>
+    <blockquote><p>一个长期项目的质量，不只体现在它今天看起来怎么样，也体现在三个月后你还愿不愿意继续维护它。</p></blockquote>
+    <h2 id="starting-point">一、先从真实问题开始</h2>
+    <p>改造前，博客已经有首页、文章页、归档、深色模式和响应式布局，但仍然有几个会随着内容增长而放大的问题：</p>
+    <ul>
+      <li>搜索只读取首页文章卡片，旧文章和正文关键词无法被找到。</li>
+      <li>项目板块更像文章入口，缺少仓库、结果和复盘证据。</li>
+      <li>桌面端文章流程图只有三列，四步流程会出现不自然的换行。</li>
+      <li>缺少自定义 404、favicon、RSS 发现入口和结构化数据。</li>
+      <li>文章主要集中在 AI 和 Agent，内容方向还不够完整。</li>
+    </ul>
+    <p>这些问题并不都会让页面立刻报错，但会影响长期使用：读者找不到旧内容，搜索引擎读不懂页面，未来自己更新文章时也容易漏改某个地方。</p>
+    <h2 id="decisions">二、先做几项重要决定</h2>
+    <p>这个站点没有引入新的框架或构建链。对目前的内容规模来说，直接维护 HTML、CSS 和 JavaScript 更容易理解，也更符合 GitHub Pages 的发布方式。改造的边界因此很明确：</p>
+    <div class="article-flow"><span><b>01 / CONTENT</b>先整理内容</span><span><b>02 / INDEX</b>建立索引</span><span><b>03 / EXPERIENCE</b>改善阅读</span><span><b>04 / VERIFY</b>留下证据</span></div>
+    <p>第二个决定是把“可维护”放在“功能数量”之前。搜索索引独立于首页卡片，页面继续保持静态，所有外部链接明确标注新窗口，文章继续采用年月日目录，方便从 URL 直接判断发布时间。</p>
+    <h2 id="implementation">三、这次具体实现了什么</h2>
+    <h3>1. 全站搜索，而不是首页筛选</h3>
+    <p>以前的搜索数据来自首页上的五张卡片。现在增加了独立的 <code>search-index.js</code>，统一记录标题、摘要、分类、关键词和正文主题。这样文章页、归档页和 404 页面都可以使用同一个搜索入口，新增文章时也有一个明确的索引位置。</p>
+    <p>搜索仍然保持纯前端实现，不需要后端接口，也不会把用户输入发送到第三方服务。匹配过程只在当前浏览器内完成，适合这个站点的规模和隐私边界。</p>
+    <h3>2. 用真实项目补足作品集</h3>
+    <p>首页的项目板块新增了“博客改造复盘”。它不是凭空包装出来的案例，而是把当前仓库的真实改动整理出来：静态页面结构、搜索索引、404 页面、RSS、站点地图、结构化数据和发布验证都能在仓库里找到对应文件。</p>
+    <div class="article-table-wrap"><table><thead><tr><th scope="col">证据</th><th scope="col">对应内容</th><th scope="col">读者可以检查什么</th></tr></thead><tbody>
+      <tr><td>仓库</td><td>GitHub Pages 源码</td><td>目录结构、提交记录和完整页面</td></tr>
+      <tr><td>体验</td><td>首页、文章页、归档、404</td><td>导航、响应式布局和错误恢复</td></tr>
+      <tr><td>发现</td><td>RSS、robots、sitemap</td><td>订阅和搜索引擎入口是否完整</td></tr>
+      <tr><td>维护</td><td>README 与文章索引</td><td>下一次新增文章需要修改哪些位置</td></tr>
+    </tbody></table></div>
+    <h3>3. 修复流程图的响应式逻辑</h3>
+    <p>流程图不是装饰，它承担了文章中的解释任务。因此桌面端使用四列，平板端使用两列并把行末箭头改成向下，手机端使用单列向下连接。这样“定义问题—交给模型—验证结果—进入行动”在不同宽度下仍然是同一条路径。</p>
+    <h3>4. 补齐页面的基础身份</h3>
+    <p>页面现在统一补充了 favicon、RSS 声明、作者信息、Open Graph 和 Twitter Card 元信息。首页加入 WebSite 结构化数据，文章页加入 BlogPosting 结构化数据；页面找不到时则进入同一套视觉系统下的 404 页面。</p>
+    <h2 id="verification">四、如何验证改动真的生效</h2>
+    <p>静态站点最容易出现“本地看起来正确，线上还是旧页面”的错觉，所以发布验证被拆成几个可以独立检查的节点：</p>
+    <ol>
+      <li>检查 Git 工作区，确认只包含本次预期改动。</li>
+      <li>检查所有文章、归档、RSS、站点地图和 404 文件是否存在。</li>
+      <li>检查内部链接目标，避免新增文章后归档链接断掉。</li>
+      <li>检查首页、文章页和归档页的元信息是否齐全。</li>
+      <li>提交并推送后确认 GitHub Pages 的线上响应和更新时间。</li>
+    </ol>
+    <div class="article-callout"><strong>这次没有伪造指标</strong><p>目前没有接入访问统计，也没有为了显得完整而编造性能提升数字。项目复盘先展示可以被读者直接检查的文件、页面和流程，后续如果加入 Lighthouse 或真实访问数据，再单独记录测试环境和结果。</p></div>
+    <h2 id="tradeoffs">五、我刻意保留的取舍</h2>
+    <p>没有把博客改成一个复杂 CMS，是因为现在文章数量还不需要数据库、登录和后台。没有加入评论系统，是因为评论带来的审核、垃圾信息和隐私维护成本，暂时超过了它能带来的价值。没有把所有页面合并成单页应用，是因为文章 URL、RSS 和静态部署本身就是这个博客的重要能力。</p>
+    <p>这些取舍不是永久结论。如果未来文章数量、订阅需求或项目展示明显增长，再考虑生成式内容管理、标签页、阅读统计或更专业的内容搜索。好的架构不是提前把未来所有可能性都实现，而是让下一次改变仍然可控。</p>
+    <h2 id="next">六、下一步会继续补什么</h2>
+    <p>接下来最值得做的不是继续堆视觉效果，而是增加真正有差异的内容：一篇模型横向测试、一篇 AI 安全与 Prompt Injection 实战、一篇前端工程复盘，以及几篇不以 AI 为主题的生活记录。</p>
+    <p>如果这个博客以后能让读者看到具体问题、真实过程、失败记录和可复用结论，它就不只是一个展示页面，而会慢慢变成一份可以回看的工作档案。</p>
+    <div class="article-signoff"><span>— Mr zou</span><span>build the archive, not just the page ✳</span></div>
+  </div></div></article></div></main>
+  <footer class="site-footer page-width"><div class="article-nav"><a href="/archives/">全部文章 <span>↗</span></a><a class="article-nav__next" href="/2026/09/07/learning-ai-skills/">下一篇：学习 AI，从工具到能力 ↗</a></div><div class="footer-bottom"><span>© <span data-current-year>2026</span> Mr zou</span><span><a href="/archives/">查看全部文章 ↗</a></span></div></footer>
+  <script src="/search-index.js"></script>
+  <script src="/main.js"></script>
+</body>
+</html>
