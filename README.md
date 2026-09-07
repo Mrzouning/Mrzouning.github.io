@@ -19,9 +19,9 @@
 ├── main.css                     # 全站视觉样式、响应式布局和深色模式
 ├── main.js                      # 全站搜索、筛选、主题切换、移动菜单和滚动动画
 ├── search-index.js               # 独立文章搜索索引，覆盖文章页和归档页
-├── favicon.svg                   # 站点图标
-├── apple-touch-icon.svg          # 移动端主屏图标
-├── social-card.svg               # Open Graph 分享图
+├── favicon.svg                   # 站点图标（SVG）
+├── apple-touch-icon.png          # iOS 主屏图标（180×180，由 apple-touch-icon.svg 生成）
+├── social-card.png               # Open Graph 分享图（1200×630，由 social-card.svg 生成）
 ├── 404.html                      # GitHub Pages 自定义错误页
 ├── 2026/                         # 按年月组织的文章
 │   └── 09/

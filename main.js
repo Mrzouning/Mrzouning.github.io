@@ -11,6 +11,16 @@
   var menuToggle = document.querySelector('[data-menu-toggle]');
   var mobileMenu = document.querySelector('[data-mobile-menu]');
   var currentYear = document.querySelector('[data-current-year]');
+  var themeColorMetas = document.querySelectorAll('meta[name="theme-color"]');
+  var themeColors = { light: '#f7f1e6', dark: '#17211e' };
+  var themeOrder = ['light', 'dark', 'system'];
+  var systemDark = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+  var currentMode = 'system';
+
+  function resolveTheme(mode) {
+    if (mode === 'light' || mode === 'dark') return mode;
+    return systemDark && systemDark.matches ? 'dark' : 'light';
+  }
 
   function ensureSearchUI() {
     if (!header) return;
@@ -45,22 +55,37 @@
 
   ensureSearchUI();
 
-  function setTheme(theme) {
+  function setTheme(mode) {
+    currentMode = mode;
+    var theme = resolveTheme(mode);
     root.dataset.theme = theme;
-    if (themeIcon) themeIcon.textContent = theme === 'dark' ? '☾' : '☼';
-    if (themeToggle) themeToggle.setAttribute('aria-label', theme === 'dark' ? '切换浅色模式' : '切换深色模式');
-    if (themeToggle) themeToggle.setAttribute('aria-pressed', String(theme === 'dark'));
-    try { localStorage.setItem('z-blog-theme', theme); } catch (error) {}
+    if (themeIcon) themeIcon.textContent = mode === 'system' ? '◐' : theme === 'dark' ? '☾' : '☼';
+    if (themeToggle) {
+      var label = mode === 'light' ? '当前浅色模式，点击切换深色模式'
+        : mode === 'dark' ? '当前深色模式，点击切换为跟随系统'
+        : '跟随系统，当前' + (theme === 'dark' ? '深色' : '浅色') + '，点击切换浅色模式';
+      themeToggle.setAttribute('aria-label', label);
+      themeToggle.title = label;
+      themeToggle.removeAttribute('aria-pressed');
+    }
+    themeColorMetas.forEach(function (meta) { meta.setAttribute('content', themeColors[theme] || themeColors.light); });
+    try { localStorage.setItem('z-blog-theme', mode); } catch (error) {}
   }
 
-  var savedTheme = null;
-  try { savedTheme = localStorage.getItem('z-blog-theme'); } catch (error) {}
-  if (savedTheme === 'dark' || savedTheme === 'light') setTheme(savedTheme);
-  else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) setTheme('dark');
+  var savedMode = null;
+  try { savedMode = localStorage.getItem('z-blog-theme'); } catch (error) {}
+  if (themeOrder.indexOf(savedMode) !== -1) setTheme(savedMode);
+  else setTheme('system');
 
   if (themeToggle) themeToggle.addEventListener('click', function () {
-    setTheme(root.dataset.theme === 'dark' ? 'light' : 'dark');
+    setTheme(themeOrder[(themeOrder.indexOf(currentMode) + 1) % themeOrder.length]);
   });
+
+  if (systemDark) {
+    var onSystemChange = function () { if (currentMode === 'system') setTheme('system'); };
+    if (systemDark.addEventListener) systemDark.addEventListener('change', onSystemChange);
+    else if (systemDark.addListener) systemDark.addListener(onSystemChange);
+  }
 
   function setSearchOpen(open) {
     if (!searchDrawer) return;
