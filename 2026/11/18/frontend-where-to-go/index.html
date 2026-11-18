@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="关于前端职业的一次认真拆解：从三次能力迁移、AI 真正替代的工作，到该不该转行的判断标准，最后给出可执行的建议。">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f1e6">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#17211e">
+  <script>(function(){var d=document.documentElement;d.classList.add("js");try{var t=localStorage.getItem("z-blog-theme");if(t!=="dark"&&t!=="light")t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";d.dataset.theme=t}catch(e){}})();</script>
+  <meta name="author" content="小邹">
+  <link rel="canonical" href="https://mrzouning.github.io/2026/11/18/frontend-where-to-go/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="alternate" type="application/rss+xml" title="小邹博客 RSS" href="/feed.xml">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="前端何去何从，是坚持还是转行 · 小邹博客">
+  <meta property="og:description" content="不急着回答留还是走，先把前端这个身份拆开：什么会被压缩，什么会升值，以及怎么往判断那一侧挪。">
+  <meta property="og:url" content="https://mrzouning.github.io/2026/11/18/frontend-where-to-go/">
+  <meta property="og:site_name" content="小邹博客">
+  <meta property="og:image" content="https://mrzouning.github.io/social-card.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>前端何去何从，是坚持还是转行 · 小邹博客</title>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BlogPosting","headline":"前端何去何从，是坚持还是转行","description":"不急着回答留还是走，先把前端这个身份拆开：三次能力迁移、AI 真正替代的工作、该不该转行的判断标准，以及可执行的建议。","datePublished":"2026-11-18","dateModified":"2026-11-18","mainEntityOfPage":{"@type":"WebPage","@id":"https://mrzouning.github.io/2026/11/18/frontend-where-to-go/"},"author":{"@type":"Person","name":"小邹","url":"https://github.com/Mrzouning"},"publisher":{"@type":"Person","name":"小邹"},"keywords":"前端 职业规划 AI 转行 工程能力 判断力","inLanguage":"zh-CN"}
+  </script>
+  <link rel="stylesheet" href="/main.css">
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#main-content">跳到主要内容</a>
+  <header class="site-header" data-header><div class="site-header__inner"><a class="brand" href="/" aria-label="小邹博客首页"><span class="brand__mark">z.</span><span class="brand__copy"><strong>Mr zou</strong><small>notes / things / life</small></span></a><nav class="site-nav" aria-label="主导航"><a href="/">首页</a><a class="is-active" href="/#notes" aria-current="page">随笔</a><a href="/archives/">归档</a><a href="/#about">关于</a></nav><div class="header-actions"><button class="icon-button" type="button" data-theme-toggle aria-pressed="false" aria-label="切换深色模式"><span data-theme-icon>☼</span></button><a class="text-link header-back" href="/">回到首页 <span>↗</span></a></div></div></header>
+  <main id="main-content"><div class="article-wrap page-width"><div class="article-breadcrumb"><a href="/">首页</a><span>/</span><a href="/#notes">随笔</a><span>/</span><span>2026.11.18</span></div><article class="article-content"><header class="article-header reveal is-visible"><p class="eyebrow">01 / CAREER NOTE</p><h1 class="article-title--long">前端何去何从，<br><em>是坚持还是转行</em></h1><p class="article-lead">真正要回答的不是这个行业还行不行，而是你打算把身份放在一套会过期的工具上，还是放在一类值得反复回答的问题上。</p><div class="article-meta"><time datetime="2026-11-18">2026 年 11 月 18 日</time><span>·</span><span>约 12 分钟阅读</span></div></header><div class="article-grid"><aside class="article-aside"><span>ON THIS PAGE</span><a href="#question">先把问题问对</a><a href="#waves">三次搬家</a><a href="#ai">AI 拿走什么</a><a href="#identity">工具还是问题</a><a href="#choices">什么时候该走</a><a href="#advice">最后几点建议</a></aside><div class="article-entry">
+    <p>每隔一段时间，「前端已死」就会重新流行一次。上一轮是低代码和可视化搭建，这一轮是 AI 直接把界面生成出来。于是同一个问题又被摆上桌面：还要不要坚持，要不要转行。</p>
+    <p>我也曾在深夜把这几个字打进搜索框。后来慢慢发现，让人不安的其实不是某个框架的生命周期，而是一种更模糊的失重：写了几年代码，好像一直在追赶，却说不清自己究竟积累了什么、能对什么负责。</p>
+    <p>所以这篇不打算给出一个留或走的结论。我想先把问题拆开——它问的其实不是行业前景，而是你打算把自己放在哪里：放在一套会过期的工具上，还是放在一类值得反复回答的问题上。</p>
+    <blockquote><p>被替代的从来不是前端，而是「把设计稿翻译成 DOM」这件事。每一次工具升级，都会把一批翻译工作压成基础设施，然后把人往判断那一侧推。</p></blockquote>
+
+    <figure class="article-figure article-figure--cover">
+      <svg class="article-diagram" viewBox="0 0 680 300" role="img" aria-label="手稿插画：左侧是不断更替、逐层褪色的工具框，中间是一个分岔点，右侧是一条通向开放界面的路">
+        <rect x="1" y="1" width="678" height="298" rx="2" class="d-panel"/>
+        <text x="24" y="28" class="d-label">FIELD NOTE / 007</text>
+        <text x="656" y="28" text-anchor="end" class="d-label">FRONTEND · 2026</text>
+        <text x="340" y="66" text-anchor="middle" class="d-script">which way?</text>
+        <line x1="24" y1="232" x2="656" y2="232" class="d-line"/>
+        <rect x="40" y="132" width="66" height="76" class="d-box-strong"/>
+        <line x1="40" y1="150" x2="106" y2="150" class="d-line"/>
+        <circle cx="50" cy="141" r="2.2" class="d-red"/>
+        <circle cx="59" cy="141" r="2.2" class="d-red"/>
+        <line x1="50" y1="166" x2="96" y2="166" class="d-line"/>
+        <line x1="50" y1="178" x2="86" y2="178" class="d-line"/>
+        <line x1="50" y1="190" x2="93" y2="190" class="d-line"/>
+        <rect x="120" y="146" width="60" height="62" class="d-box"/>
+        <line x1="120" y1="162" x2="180" y2="162" class="d-line"/>
+        <line x1="130" y1="176" x2="170" y2="176" class="d-line"/>
+        <line x1="130" y1="188" x2="162" y2="188" class="d-line"/>
+        <rect x="194" y="158" width="52" height="50" class="d-box"/>
+        <line x1="194" y1="172" x2="246" y2="172" class="d-line"/>
+        <line x1="203" y1="186" x2="237" y2="186" class="d-line"/>
+        <text x="40" y="226" class="d-label">TOOLS CHANGE</text>
+        <circle cx="326" cy="232" r="6" class="d-red"/>
+        <text x="326" y="262" text-anchor="middle" class="d-label">YOU ARE HERE</text>
+        <path d="M326 232 C 292 266 250 272 208 258" class="d-line-fade"/>
+        <path d="M326 232 C 388 228 408 168 462 138" class="d-line-red"/>
+        <path d="M462 138 C 512 112 548 104 590 96" class="d-line-red"/>
+        <path d="M582 88 L592 95 L583 103" class="d-line-red"/>
+        <path d="M556 62 L640 62 L640 138" class="d-line-strong"/>
+        <path d="M556 62 L556 120" class="d-line-strong"/>
+        <circle cx="590" cy="86" r="3" class="d-yellow"/>
+        <circle cx="612" cy="108" r="2.4" class="d-yellow"/>
+        <circle cx="578" cy="112" r="2" class="d-yellow"/>
+        <text x="640" y="160" text-anchor="end" class="d-label">QUESTIONS STAY</text>
+        <text x="24" y="286" class="d-label">01 / 别守着工位，守住问题</text>
+      </svg>
+      <figcaption><b>FIG. 01</b>左边是不断更替、逐层褪色的工具，右边是一直没人替你回答的问题。我们以为在选一条路，其实是在选站在哪一层。</figcaption>
+    </figure>
+
+    <h2 id="question">一、先把问题问对</h2>
+    <p>「坚持还是转行」是一个干净的二选一，而干净的二选一常常掩盖了真正的变量：你厌烦的到底是这件事本身，还是这两年做这件事的方式？这两者看起来很像，解法却完全相反。</p>
+    <p>至少有三种焦虑被混在一起谈：技术迭代带来的疲惫、岗位议价权下降带来的不安，以及做了很多页面却觉得没留下什么的空心感。第一种要靠改变学习方法，第二种要靠选择更靠近决策的场景，第三种要靠换一个问题——而不是换一个行业。</p>
+    <p>转行能解决的是「我不想再做这个」，解决不了「我不知道自己想做什么」。后者不会留在原公司，它会跟着你到下一份工作，只是换了一张工牌。用换行业来处理一个关于方向的问题，通常只是把同一个迷茫推迟半年再遇到一次。</p>
+
+    <h2 id="waves">二、这个位置的三次搬家</h2>
+    <p>如果把前端理解成一个固定的工位，它当然随时可能被拆掉。但如果把它理解成软件里离用户最近的那一层，它从来没有消失，只是搬了三次家。每一阶段都有自己的护城河，也都有自己的过期时间。</p>
+
+    <figure class="article-figure">
+      <svg class="article-diagram" viewBox="0 0 680 268" role="img" aria-label="前端价值的三次迁移：把页面做出来、把复杂度收起来、对结果负责">
+        <rect x="1" y="1" width="678" height="266" rx="2" class="d-panel"/>
+        <text x="24" y="28" class="d-label">FIG. 02 / THREE MOVES</text>
+        <text x="656" y="28" text-anchor="end" class="d-label">护城河会过期，位置不会</text>
+        <line x1="24" y1="52" x2="656" y2="52" class="d-line"/>
+        <circle cx="128" cy="52" r="4" class="d-muted"/>
+        <circle cx="340" cy="52" r="4" class="d-muted"/>
+        <circle cx="552" cy="52" r="5" class="d-red"/>
+        <rect x="24" y="72" width="208" height="150" class="d-box"/>
+        <text x="40" y="100" class="d-num d-muted">01 / 2005—2012</text>
+        <text x="40" y="132" class="d-title">把页面做出来</text>
+        <text x="40" y="162" class="d-sm d-muted">兼容、切图、像素还原</text>
+        <text x="40" y="182" class="d-sm d-muted">护城河：浏览器的怪癖</text>
+        <text x="40" y="208" class="d-num d-red">VALUE = 还原</text>
+        <rect x="236" y="72" width="208" height="150" class="d-box"/>
+        <text x="252" y="100" class="d-num d-muted">02 / 2013—2020</text>
+        <text x="252" y="132" class="d-title">把复杂度收起来</text>
+        <text x="252" y="162" class="d-sm d-muted">框架、组件、构建、状态</text>
+        <text x="252" y="182" class="d-sm d-muted">护城河：可维护的结构</text>
+        <text x="252" y="208" class="d-num d-red">VALUE = 结构</text>
+        <rect x="448" y="72" width="208" height="150" class="d-box-strong"/>
+        <text x="464" y="100" class="d-num d-muted">03 / 2021—NOW</text>
+        <text x="464" y="132" class="d-title">对结果负责</text>
+        <text x="464" y="162" class="d-sm d-muted">性能、可访问性、体验、智能</text>
+        <text x="464" y="182" class="d-sm d-muted">护城河：判断与取舍</text>
+        <text x="464" y="208" class="d-num d-red">VALUE = 判断</text>
+        <text x="340" y="248" text-anchor="middle" class="d-sm d-ink">每次被宣布死掉的，都是上一阶段的护城河。</text>
+      </svg>
+      <figcaption><b>FIG. 02</b>价值从「还原」上移到「结构」，再上移到「判断」。变的是值钱的能力，不是这个位置。<span class="figure-hint">窄屏可左右滑动 →</span></figcaption>
+    </figure>
+
+    <p>有意思的是，每次宣布「前端已死」的时候，死掉的其实都是上一阶段的护城河：记得多少浏览器怪癖、多快搭起一个脚手架、多熟某个框架的 API。这些曾经值钱，后来变成默认能力，最后变成基础设施。</p>
+    <p>所以所谓「天花板低」，很多时候不是这个位置没有纵深，而是人把自己留在了前两层的重复劳动里。<strong>护城河会过期，位置不会；会过期的是你会什么，不会过期的是你能对什么负责。</strong></p>
+
+    <h2 id="ai">三、AI 拿走的，和拿不走的</h2>
+    <p>这一次确实不一样，不该假装没发生。AI 最擅长的正是翻译型劳动：把需求翻成组件、把接口翻成表格、把设计稿翻成代码、把一段报错翻成补丁。这部分工作被快速压缩是事实，也是好事——它本来就不该由人长期承担。</p>
+    <p>但界面从来不是代码的产物，是取舍的产物。300 毫秒的等待里要不要骨架屏、无障碍与动效冲突时先保谁、弱网下哪些数据必须先到、一条模糊的业务规则怎样变成用户看得懂的反馈、一个很炫的交互会不会让三年后的维护者骂人。这些没有标准答案，只有责任主体。</p>
+    <p><strong>当生成变得廉价，判断就变得昂贵。</strong>工具把「怎么做」变便宜了，「做什么、做到什么程度、出错时谁负责」反而更贵。这不是安慰，是价格结构的迁移。</p>
+    <div class="article-table-wrap"><table><thead><tr><th scope="col">正在被压缩</th><th scope="col">反而更值钱</th></tr></thead><tbody>
+      <tr><td>把设计稿翻成组件</td><td>定义什么值得做、验收标准是什么</td></tr>
+      <tr><td>按接口铺表格和表单</td><td>决定弱网、异常、空状态下用户看到什么</td></tr>
+      <tr><td>复刻一个已有交互</td><td>在无障碍、性能、动效冲突时做取舍</td></tr>
+      <tr><td>追一个新框架的 API</td><td>让团队三年后还愿意维护这套结构</td></tr>
+      <tr><td>生成一段能跑的代码</td><td>说明它为什么对、出错时谁负责</td></tr>
+    </tbody></table></div>
+    <div class="article-callout"><strong>一个可以在周五下午做的检验</strong><p>翻出最近四周的任务清单，逐条问：如果把它交给 AI，它做不出来的部分是什么？那些剩下的部分，才是你现在的职业内容。如果答案很少，问题不在行业，在你手里的任务结构。</p></div>
+    <p>这张表不是在安慰谁，它只是把一个问题说清楚：你的时间花在左列还是右列，决定了你是在跟工具赛跑，还是在跟问题相处。</p>
+
+    <h2 id="identity">四、你坚持的是工具，还是问题</h2>
+    <p>有两种自我介绍。一种是「我做 React、我熟悉某条构建链」；另一种是「我负责让复杂信息在弱网、多设备和不同能力的人手上仍然可用」。前一句的有效期跟着版本走，后一句换语言换框架依然成立。</p>
+    <p>身份绑在工具上，每一次大版本更新都像一次小型审判，焦虑是周期性的；身份绑在问题上，同样的更新会变成「又多了一个可以用得更顺手的东西」，焦虑才有机会变成好奇。</p>
+    <p>这里藏着真正的分界线：你是在积累一堆会折旧的操作，还是在积累一组可迁移的判断。前者让你越来越怕变化，后者让变化变成素材。同样是十年经验，有人是十遍第一年，有人是十年不同问题的答案。</p>
+    <blockquote><p>框架会更替，界面会从屏幕长到别的地方，但「让技术在人这一侧变得可用」这件事，还在。</p></blockquote>
+
+    <h2 id="choices">五、什么时候真的该走</h2>
+    <p>不劝所有人留下。有些时候走是对的，而且应该干脆地走。只是该有一个比「又出了一个新框架」更结实的理由。</p>
+    <h3>可以认真考虑离开的信号</h3>
+    <ul>
+      <li>一想到要做界面相关的事就生理性地厌烦，且持续一年以上，换过团队和项目也没变。</li>
+      <li>你真正感兴趣的问题在别的层：分布式系统、模型、数据、硬件，或者纯粹的产品决策，并且已经用业余时间持续投入过，而不是只在想象里喜欢。</li>
+      <li>生活或身体要求另一种节奏，而这个行业当前的节奏确实不可调和。</li>
+    </ul>
+    <h3>不该据此下结论的信号</h3>
+    <ul>
+      <li>因为 AI 能生成页面、某个框架又火了、招聘描述变少了——这些是环境变量，不是方向判断。</li>
+      <li>因为这一年没做出让自己满意的东西。那通常先要改的是任务结构，不是行业。</li>
+      <li>因为身边的人都在转。人群的方向不提供坐标。</li>
+    </ul>
+
+    <figure class="article-figure">
+      <svg class="article-diagram" viewBox="0 0 680 250" role="img" aria-label="去留判断分流图：先区分环境变量与方向变量，再决定改方法还是迁移方向">
+        <rect x="1" y="1" width="678" height="248" rx="2" class="d-panel"/>
+        <text x="24" y="28" class="d-label">FIG. 03 / THE REAL QUESTION</text>
+        <rect x="110" y="44" width="460" height="44" class="d-box-strong"/>
+        <text x="340" y="72" text-anchor="middle" class="d-sm d-ink">我厌烦的是这件事，还是这两年做这件事的方式？</text>
+        <path d="M340 88 L340 108" class="d-line"/>
+        <path d="M170 108 L510 108" class="d-line"/>
+        <path d="M170 108 L170 128" class="d-line"/>
+        <path d="M510 108 L510 128" class="d-line"/>
+        <rect x="24" y="128" width="292" height="96" class="d-box"/>
+        <text x="42" y="156" class="d-num d-red">ENVIRONMENT / 环境变量</text>
+        <text x="42" y="184" class="d-title">换了方法就能解</text>
+        <text x="42" y="208" class="d-sm d-muted">框架、AI、薪资、行情 → 先改方法</text>
+        <rect x="364" y="128" width="292" height="96" class="d-box-strong"/>
+        <text x="382" y="156" class="d-num d-red">DIRECTION / 方向变量</text>
+        <text x="382" y="184" class="d-title">值得认真迁移</text>
+        <text x="382" y="208" class="d-sm d-muted">兴趣在别的层 → 带着能力走</text>
+        <text x="340" y="240" text-anchor="middle" class="d-sm d-ink">转行是奔向一个问题，不是逃离一个版本。</text>
+      </svg>
+      <figcaption><b>FIG. 03</b>先把焦虑归类，再谈去留。多数「想转行」，其实落在左边那一格。<span class="figure-hint">窄屏可左右滑动 →</span></figcaption>
+    </figure>
+
+    <p>转行应该是奔向一个问题，而不是逃离一个版本。前者是迁移，带着已有的用户视角、工程习惯和审美判断一起走；后者是清零，到了新地方还得重新回答一遍「我是谁」。</p>
+
+    <h2 id="advice">六、最后，给几个具体建议</h2>
+    <p>如果读到这里还是想要一个答案，我给不出「留」或「走」，但可以给一组下周就能开始做的动作。它们指向同一件事：别急着换行业，先把自己从执行那一侧，往判断那一侧挪半步。</p>
+    <ol>
+      <li><strong>做一次工作内容拆解。</strong>翻出最近四周的任务，逐条标注「翻译型 / 判断型 / 责任型」，算出比例。焦虑最怕具体数字，别凭感觉下结论。</li>
+      <li><strong>把自我介绍改写成问题句。</strong>把「我会某个框架」改成「我解决过什么」，一直改到能举出证据为止。写不出来的部分，就是接下来半年该补的部分。</li>
+      <li><strong>往上游挪半步，而不是跳船。</strong>主动参与需求澄清、写验收标准、定性能与可访问性基线、维护设计系统。上游的判断比下游的手速抗周期得多。</li>
+      <li><strong>选一两个有纵深的支点。</strong>渲染与性能、可访问性、数据可视化与图形、跨端与端侧、设计系统工程、AI 交互设计，任选其一做深。不追「全栈」这个名词，追一个能被别人验证的作品。</li>
+      <li><strong>用 90 天做一次可撤回的实验。</strong>拿真实项目试一个新方向，留下可展示的产出，再决定要不要转。别用辞职做调研，代价太高且不可回滚。</li>
+      <li><strong>用证据代替收藏。</strong>一个仓库、一篇复盘、一组前后对比数据、一次失败的完整记录。说不清自己积累了什么，往往只是因为没有留下可回看的东西。</li>
+      <li><strong>如果确认要转，先转问题再转岗位。</strong>带着用户视角和工程能力往产品、后端、数据或 AI 应用迁移，那不是从头开始，是把已经有的东西换个地方用。</li>
+    </ol>
+    <p>职业不是一条需要守住的赛道，更像一组你愿意反复回答的问题。界面会从浏览器长到车机、眼镜、语音和还叫不出名字的地方，工具会把越来越多的「怎么做」接过去。留下的那部分——决定什么值得被做出来，并且愿意为它负责——恰恰是最不像能被自动化的东西。</p>
+    <p>所以如果一定要给一个答案：<strong>别坚持「前端」这个标签，也别急着转出这个行业。去坚持一个值得回答的问题，然后允许它带着你换位置。</strong>坚持不该是忍着不动，转行也不必是推翻重来。</p>
+    <div class="article-signoff"><span>— Mr zou</span><span>hold the question, not the framework ✳</span></div>
+  </div></div></article></div></main>
+  <footer class="site-footer page-width"><div class="article-nav"><a href="/archives/">全部文章 <span>↗</span></a><a class="article-nav__next" href="/2026/09/07/blog-redesign-review/">下一篇：把博客改造成长期可维护的个人站 ↗</a></div><div class="footer-bottom"><span>© <span data-current-year>2026</span> Mr zou</span><span><a href="/archives/">查看全部文章 ↗</a></span></div></footer>
+  <script src="/search-index.js"></script>
+  <script src="/main.js"></script>
+</body>
+</html>

@@ -1,5 +1,14 @@
 window.blogSearchIndex = [
   {
+    href: '/2026/11/18/frontend-where-to-go/',
+    title: '前端何去何从，是坚持还是转行',
+    description: '关于前端职业的一次认真拆解：三次能力迁移、AI 真正替代的工作、该不该转行的判断标准，以及可执行的建议。',
+    category: 'career',
+    categoryLabel: 'CAREER / FRONTEND',
+    keywords: '前端 职业 转行 坚持 AI 框架 判断力 工程能力 建议',
+    content: '护城河 翻译型劳动 责任主体 设计系统 可访问性 性能 上游 90 天实验 问题句'
+  },
+  {
     href: '/2026/09/07/blog-redesign-review/',
     title: '把博客改造成长期可维护的个人站',
     description: '记录一次 GitHub Pages 静态博客改造：从内容、搜索、响应式布局到发布验证。',
