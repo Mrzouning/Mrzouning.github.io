@@ -571,3 +571,86 @@
 
   if (currentYear) currentYear.textContent = String(new Date().getFullYear());
 }());
+
+/* ==========================================================================
+   点击 +1 飘字：每次点击都在指针处生成一枚独立飘字，随后缓缓上浮淡出。
+   - 纯装饰层不接收指针事件，链接/按钮/下拉等交互完全不受影响；
+   - 不做节流，连点几次就同时出现几枚；动画结束即移除节点；
+   - 拖拽选字、长按、右键、修饰键点击、输入控件内点击均不触发。
+   ========================================================================== */
+(function () {
+  if (!window.PointerEvent) return;
+
+  var MAX_ON_SCREEN = 40;
+  var layer = null;
+  var active = [];
+  var down = null;
+
+  function ensureLayer() {
+    if (layer && layer.isConnected) return layer;
+    layer = document.createElement('div');
+    layer.className = 'click-pop-layer';
+    layer.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(layer);
+    return layer;
+  }
+
+  function spawn(x, y) {
+    var host = ensureLayer();
+    var el = document.createElement('span');
+    el.className = 'click-pop';
+    el.textContent = '+1';
+    /* 轻微随机，让连点时几枚飘字不会呆板地叠在一起 */
+    el.style.left = x + 'px';
+    el.style.top = y + 'px';
+    el.style.setProperty('--pop-dx', ((Math.random() * 2 - 1) * 26).toFixed(1) + 'px');
+    el.style.setProperty('--pop-rot', ((Math.random() * 2 - 1) * 9).toFixed(1) + 'deg');
+    el.style.setProperty('--pop-scale', (0.9 + Math.random() * 0.28).toFixed(2));
+    host.appendChild(el);
+    active.push(el);
+    if (active.length > MAX_ON_SCREEN) {
+      var oldest = active.shift();
+      if (oldest) oldest.remove();
+    }
+
+    var done = false;
+    function remove() {
+      if (done) return;
+      done = true;
+      el.remove();
+      var i = active.indexOf(el);
+      if (i !== -1) active.splice(i, 1);
+    }
+    el.addEventListener('animationend', remove, { once: true });
+    /* 兜底：标签页切后台导致动画被暂停时，仍能保证节点被回收 */
+    window.setTimeout(remove, 1800);
+  }
+
+  function isFormControl(node) {
+    return !!(node && node.closest && node.closest('input, textarea, select, [contenteditable]'));
+  }
+
+  function init() {
+    document.addEventListener('pointerdown', function (event) {
+      down = null;
+      if (event.button !== 0 || event.isPrimary === false) return;
+      if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      if (isFormControl(event.target)) return;
+      down = { x: event.clientX, y: event.clientY, at: Date.now(), id: event.pointerId };
+    }, { passive: true });
+
+    document.addEventListener('pointerup', function (event) {
+      var start = down;
+      down = null;
+      if (!start || event.pointerId !== start.id) return;
+      if (Date.now() - start.at > 700) return;                 /* 长按不算点击 */
+      if (Math.abs(event.clientX - start.x) > 10 || Math.abs(event.clientY - start.y) > 10) return; /* 拖拽/选字 */
+      spawn(event.clientX, event.clientY);
+    }, { passive: true });
+
+    document.addEventListener('pointercancel', function () { down = null; }, { passive: true });
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });
+  else init();
+}());

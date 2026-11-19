@@ -582,6 +582,7 @@ html.is-style-switching *:after {
   .js .reveal, .reveal { opacity: 1 !important; transform: none !important; visibility: visible !important; }
 
   .skip-link,
+  .click-pop-layer, .click-pop,
   .site-header, .mobile-menu, .search-drawer, .menu-toggle,
   .style-picker, .mobile-style, .footer-style, .icon-button,
   .hero-art, .hero-doodle, .art-tape, .art-stamp, .art-scribble,

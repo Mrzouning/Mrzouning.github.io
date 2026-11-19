@@ -348,3 +348,51 @@ h1, h2, h3 { font-weight: 500; }
   .mobile-style .style-picker__text small { font-size: 11px; }
   .mobile-style .style-picker__menu { position: static; width: 100%; max-height: none; margin-top: 6px; box-shadow: none; }
 }
+
+/* ==========================================================================
+   点击 +1 飘字 / Click pop（纯装饰，由 main.js 在指针位置临时生成）
+   容器铺满视口但完全不接收事件，因此不会影响链接、按钮、下拉等任何交互。
+   ========================================================================== */
+.click-pop-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  overflow: hidden;
+  pointer-events: none;
+  contain: layout style;
+}
+.click-pop {
+  position: absolute;
+  display: block;
+  color: var(--red);
+  font: 700 25px/1 var(--serif);
+  letter-spacing: .02em;
+  white-space: nowrap;
+  text-shadow: 0 1px 0 var(--paper-light), 0 0 5px var(--paper-light), 0 0 12px var(--paper);
+  will-change: transform, opacity;
+  transform: translate(-50%, -50%);
+  animation: click-pop-rise 1.25s cubic-bezier(.22, .61, .36, 1) forwards;
+}
+@keyframes click-pop-rise {
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(.5) rotate(var(--pop-rot, 0deg)); }
+  22%  { opacity: 1; transform: translate(calc(-50% + var(--pop-dx, 0px)), calc(-50% - 20px)) scale(var(--pop-scale, 1)) rotate(var(--pop-rot, 0deg)); }
+  58%  { opacity: .95; }
+  100% { opacity: 0; transform: translate(calc(-50% + var(--pop-dx, 0px)), calc(-50% - 78px)) scale(.9) rotate(var(--pop-rot, 0deg)); }
+}
+@media (max-width: 600px) {
+  .click-pop { font-size: 21px; animation-name: click-pop-rise-sm; }
+  @keyframes click-pop-rise-sm {
+    0%   { opacity: 0; transform: translate(-50%, -50%) scale(.5) rotate(var(--pop-rot, 0deg)); }
+    22%  { opacity: 1; transform: translate(calc(-50% + var(--pop-dx, 0px)), calc(-50% - 16px)) scale(var(--pop-scale, 1)) rotate(var(--pop-rot, 0deg)); }
+    58%  { opacity: .95; }
+    100% { opacity: 0; transform: translate(calc(-50% + var(--pop-dx, 0px)), calc(-50% - 62px)) scale(.9) rotate(var(--pop-rot, 0deg)); }
+  }
+}
+/* 减少动效偏好：只保留一次短淡出，不做位移与缩放 */
+@media (prefers-reduced-motion: reduce) {
+  .click-pop { animation: click-pop-fade .55s ease-out forwards; }
+  @keyframes click-pop-fade {
+    from { opacity: 1; transform: translate(-50%, -50%); }
+    to   { opacity: 0; transform: translate(-50%, -50%); }
+  }
+}
