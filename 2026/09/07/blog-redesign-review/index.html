@@ -6,7 +6,7 @@
   <meta name="description" content="记录一次 GitHub Pages 静态博客改造：从内容结构、全站搜索、响应式布局到 SEO 和发布验证。">
   <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f1e6">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#17211e">
-  <script>(function(){var d=document.documentElement;d.classList.add("js");try{var t=localStorage.getItem("z-blog-theme");if(t!=="dark"&&t!=="light")t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";d.dataset.theme=t}catch(e){}})();</script>
+  <script>(function(){var d=document.documentElement;d.classList.add("js");var q=null;try{q=new URLSearchParams(location.search)}catch(e){}try{var t=(q&&q.get("theme"))||localStorage.getItem("z-blog-theme");if(t!=="dark"&&t!=="light")t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";d.dataset.theme=t}catch(e){}try{var s=(q&&q.get("style"))||localStorage.getItem("z-blog-style");if(s==="auto"){var h=new Date().getHours();s=(window.matchMedia&&window.matchMedia("(prefers-contrast: more)").matches)?"minimal":(h>=7&&h<19?"editorial":"tech")}if(s&&/^[a-z0-9-]{1,24}$/.test(s))d.dataset.style=s}catch(e){}})();</script>
   <meta name="author" content="小邹">
   <link rel="canonical" href="https://mrzouning.github.io/2026/09/07/blog-redesign-review/">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -24,6 +24,7 @@
   {"@context":"https://schema.org","@type":"BlogPosting","headline":"把博客改造成长期可维护的个人站","description":"从内容、搜索、响应式布局到发布验证，记录一次静态博客的真实改造过程。","datePublished":"2026-09-07","dateModified":"2026-09-07","mainEntityOfPage":{"@type":"WebPage","@id":"https://mrzouning.github.io/2026/09/07/blog-redesign-review/"},"author":{"@type":"Person","name":"小邹","url":"https://github.com/Mrzouning"},"publisher":{"@type":"Person","name":"小邹"},"inLanguage":"zh-CN"}
   </script>
   <link rel="stylesheet" href="/main.css">
+  <link rel="stylesheet" href="/theme-styles.css">
 </head>
 <body class="article-page">
   <a class="skip-link" href="#main-content">跳到主要内容</a>

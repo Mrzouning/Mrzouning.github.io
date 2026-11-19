@@ -1,0 +1,618 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   风格令牌 / Style Tokens
+   --------------------------------------------------------------------------
+   两个正交维度，互不耦合：
+     data-theme = light | dark              由主题按钮控制（main.js 原有逻辑）
+     data-style = editorial | tech | retro | minimal   由导航下拉框控制
+   editorial 是默认风格，直接复用 main.css :root 的基础变量，视觉零变化。
+
+   新增一套风格只需三步，无需改动任何 HTML：
+     ① 在下方添加 :root[data-style="x"] 与 :root[data-style="x"][data-theme="dark"]
+     ② 在 main.js 的 STYLES 列表加一项（下拉选项）
+     ③ 在 main.js 的 STYLE_COLORS 加 light / dark 两个 theme-color
+   head 中的引导脚本用通用规则读取任意合法风格名，不含白名单。
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   科技风 / TECH
+   冷色网格、等宽标题、直角、零旋转。主色蓝、次色青、点缀淡紫。
+   -------------------------------------------------------------------------- */
+:root[data-style="tech"] {
+  --paper: #f2f6fa;
+  --paper-deep: #e2eaf3;
+  --paper-light: #ffffff;
+  --ink: #101c2c;
+  --muted: #5c6f85;
+  --line: rgba(16, 28, 44, .14);
+  --green: #0b63c9;
+  --green-dark: #084a96;
+  --red: #0d9b8e;
+  --yellow: #c3b4fb;
+  --shadow: 0 18px 44px rgba(11, 99, 201, .12);
+
+  --on-accent: #ffffff;
+  --on-accent-soft: rgba(255, 255, 255, .76);
+  --on-accent-meta: rgba(255, 255, 255, .68);
+  --on-accent-faint: rgba(255, 255, 255, .30);
+  --on-featured: rgba(16, 28, 44, .82);
+  --on-featured-meta: rgba(16, 28, 44, .66);
+  --selection-ink: #0b1220;
+  --scribble-ink: rgba(13, 155, 142, .72);
+  --accent-shadow: rgba(11, 99, 201, .18);
+  --decor-shadow: rgba(16, 28, 44, .14);
+
+  --art-base: #0d3f7a;
+  --art-glow: rgba(195, 180, 251, .42);
+  --art-scan: rgba(86, 168, 255, .10);
+  --art-grid: rgba(11, 99, 201, .10);
+  --art-tint: rgba(195, 180, 251, .28);
+  --tape: rgba(195, 180, 251, .80);
+
+  --sans: "Inter", "Helvetica Neue", "PingFang SC", "Noto Sans SC", Arial, sans-serif;
+  --serif: "SFMono-Regular", "JetBrains Mono", "Menlo", Consolas, "PingFang SC", monospace;
+
+  --radius: 0px;
+  --grain-image: linear-gradient(to right, var(--line) 1px, transparent 1px), linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+  --grain-size: 44px 44px;
+  --grain-opacity: .5;
+  --grain-blend: normal;
+  --decor-opacity: .26;
+  color-scheme: light;
+}
+
+:root[data-style="tech"][data-theme="dark"] {
+  --paper: #0a1320;
+  --paper-deep: #122033;
+  --paper-light: #16273d;
+  --ink: #e8f1fb;
+  --muted: #8fa5bd;
+  --line: rgba(232, 241, 251, .16);
+  --green: #56a8ff;
+  --green-dark: #8ac6ff;
+  --red: #35d3bd;
+  --yellow: #9c86f5;
+  --shadow: 0 20px 50px rgba(0, 0, 0, .38);
+
+  --on-accent: #07111e;
+  --on-accent-soft: rgba(7, 17, 30, .78);
+  --on-accent-meta: rgba(7, 17, 30, .70);
+  --on-accent-faint: rgba(7, 17, 30, .32);
+  --on-featured: rgba(10, 19, 32, .86);
+  --on-featured-meta: rgba(10, 19, 32, .70);
+  --selection-ink: #07111e;
+  --scribble-ink: rgba(53, 211, 189, .70);
+  --accent-shadow: rgba(86, 168, 255, .18);
+  --decor-shadow: rgba(0, 0, 0, .35);
+
+  --art-base: #123f75;
+  --art-glow: rgba(156, 134, 245, .38);
+  --art-scan: rgba(86, 168, 255, .12);
+  --art-grid: rgba(86, 168, 255, .12);
+  --art-tint: rgba(156, 134, 245, .26);
+  --tape: rgba(156, 134, 245, .78);
+  --grain-opacity: .34;
+  color-scheme: dark;
+}
+
+/* --------------------------------------------------------------------------
+   复古风 / RETRO
+   做旧牛皮纸、棕与砖红、打字机小字、双线边框、端正少倾斜。
+   -------------------------------------------------------------------------- */
+:root[data-style="retro"] {
+  --paper: #eee1c4;
+  --paper-deep: #dfcda9;
+  --paper-light: #f8efd8;
+  --ink: #33271d;
+  --muted: #7a6851;
+  --line: rgba(51, 39, 29, .24);
+  --green: #7b4a2c;
+  --green-dark: #5a341f;
+  --red: #a63a29;
+  --yellow: #d8a441;
+  --shadow: 0 20px 44px rgba(75, 51, 28, .18);
+
+  --on-accent: #f8efd8;
+  --on-accent-soft: rgba(248, 239, 216, .78);
+  --on-accent-meta: rgba(248, 239, 216, .68);
+  --on-accent-faint: rgba(248, 239, 216, .34);
+  --on-featured: rgba(51, 39, 29, .84);
+  --on-featured-meta: rgba(51, 39, 29, .68);
+  --selection-ink: #33271d;
+  --scribble-ink: rgba(166, 58, 41, .72);
+  --accent-shadow: rgba(122, 74, 44, .22);
+  --decor-shadow: rgba(75, 51, 28, .20);
+
+  --art-base: #6b4026;
+  --art-glow: rgba(216, 164, 65, .40);
+  --art-scan: rgba(248, 239, 216, .07);
+  --art-grid: rgba(51, 39, 29, .10);
+  --art-tint: rgba(216, 164, 65, .26);
+  --tape: rgba(216, 164, 65, .78);
+
+  --sans: "Courier New", Courier, "PingFang SC", "Noto Sans SC", monospace;
+  --serif: "Baskerville", "Iowan Old Style", "Songti SC", "STSong", Georgia, serif;
+
+  --radius: 0px;
+  --grain-opacity: .2;
+  --grain-size: 180px 180px;
+  --grain-blend: multiply;
+  color-scheme: light;
+}
+
+:root[data-style="retro"][data-theme="dark"] {
+  --paper: #241b13;
+  --paper-deep: #33261a;
+  --paper-light: #2e2318;
+  --ink: #f1e3c8;
+  --muted: #b8a487;
+  --line: rgba(241, 227, 200, .20);
+  --green: #c08a58;
+  --green-dark: #d8ab7a;
+  --red: #d4714e;
+  --yellow: #dfb257;
+  --shadow: 0 22px 50px rgba(0, 0, 0, .40);
+
+  --on-accent: #241b13;
+  --on-accent-soft: rgba(36, 27, 19, .80);
+  --on-accent-meta: rgba(36, 27, 19, .70);
+  --on-accent-faint: rgba(36, 27, 19, .34);
+  --on-featured: rgba(36, 27, 19, .86);
+  --on-featured-meta: rgba(36, 27, 19, .70);
+  --selection-ink: #241b13;
+  --scribble-ink: rgba(212, 113, 78, .70);
+  --accent-shadow: rgba(192, 138, 88, .20);
+  --decor-shadow: rgba(0, 0, 0, .35);
+
+  --art-base: #4a2f1d;
+  --art-glow: rgba(223, 178, 87, .34);
+  --art-scan: rgba(241, 227, 200, .06);
+  --art-grid: rgba(241, 227, 200, .08);
+  --art-tint: rgba(223, 178, 87, .24);
+  --tape: rgba(223, 178, 87, .76);
+  color-scheme: dark;
+}
+
+/* --------------------------------------------------------------------------
+   简约风 / MINIMAL
+   近乎无彩、纯白留白、无噪点、无旋转、无手绘装饰。
+   -------------------------------------------------------------------------- */
+:root[data-style="minimal"] {
+  --paper: #ffffff;
+  --paper-deep: #f3f3f3;
+  --paper-light: #fafafa;
+  --ink: #181818;
+  --muted: #787878;
+  --line: rgba(24, 24, 24, .10);
+  --green: #1c1c1c;
+  --green-dark: #000000;
+  --red: #555555;
+  --yellow: #f0f0f0;
+  --shadow: 0 12px 32px rgba(0, 0, 0, .05);
+
+  --on-accent: #ffffff;
+  --on-accent-soft: rgba(255, 255, 255, .78);
+  --on-accent-meta: rgba(255, 255, 255, .68);
+  --on-accent-faint: rgba(255, 255, 255, .30);
+  --on-featured: rgba(24, 24, 24, .78);
+  --on-featured-meta: rgba(24, 24, 24, .64);
+  --selection-ink: #181818;
+  --scribble-ink: rgba(85, 85, 85, .62);
+  --accent-shadow: rgba(0, 0, 0, .10);
+  --decor-shadow: rgba(0, 0, 0, .08);
+
+  --art-base: #2b2b2b;
+  --art-glow: rgba(255, 255, 255, .16);
+  --art-scan: rgba(255, 255, 255, .04);
+  --art-grid: rgba(24, 24, 24, .06);
+  --art-tint: rgba(24, 24, 24, .06);
+  --tape: rgba(24, 24, 24, .10);
+
+  --radius: 0px;
+  --grain-image: none;
+  --grain-opacity: 0;
+  --grain-blend: normal;
+  color-scheme: light;
+}
+
+:root[data-style="minimal"][data-theme="dark"] {
+  --paper: #131313;
+  --paper-deep: #1e1e1e;
+  --paper-light: #1a1a1a;
+  --ink: #ededed;
+  --muted: #9c9c9c;
+  --line: rgba(237, 237, 237, .14);
+  --green: #e6e6e6;
+  --green-dark: #ffffff;
+  --red: #a0a0a0;
+  --yellow: #262626;
+  --shadow: 0 14px 36px rgba(0, 0, 0, .30);
+
+  --on-accent: #181818;
+  --on-accent-soft: rgba(24, 24, 24, .78);
+  --on-accent-meta: rgba(24, 24, 24, .70);
+  --on-accent-faint: rgba(24, 24, 24, .34);
+  --on-featured: rgba(237, 237, 237, .82);
+  --on-featured-meta: rgba(237, 237, 237, .66);
+  --selection-ink: #181818;
+  --scribble-ink: rgba(160, 160, 160, .60);
+  --accent-shadow: rgba(255, 255, 255, .10);
+  --decor-shadow: rgba(0, 0, 0, .35);
+
+  --art-base: #d9d9d9;
+  --art-glow: rgba(0, 0, 0, .14);
+  --art-scan: rgba(0, 0, 0, .04);
+  --art-grid: rgba(237, 237, 237, .06);
+  --art-tint: rgba(237, 237, 237, .06);
+  --tape: rgba(237, 237, 237, .12);
+  color-scheme: dark;
+}
+
+/* --------------------------------------------------------------------------
+   护眼豆沙绿 / SAGE
+   低饱和灰绿纸张、墨绿正文、去掉纯白与纯黑，为长时间阅读降低刺激。
+   -------------------------------------------------------------------------- */
+:root[data-style="sage"] {
+  --paper: #e9e7d9;
+  --paper-deep: #dcd9c7;
+  --paper-light: #f3f1e5;
+  --ink: #2f3a31;
+  --muted: #6b7768;
+  --line: rgba(47, 58, 49, .16);
+  --green: #4a6b52;
+  --green-dark: #3a5540;
+  --red: #9b5a46;
+  --yellow: #d8c98f;
+  --shadow: 0 16px 38px rgba(47, 58, 49, .12);
+
+  --on-accent: #f6f4e8;
+  --on-accent-soft: rgba(246, 244, 232, .78);
+  --on-accent-meta: rgba(246, 244, 232, .68);
+  --on-accent-faint: rgba(246, 244, 232, .32);
+  --on-featured: rgba(47, 58, 49, .82);
+  --on-featured-meta: rgba(47, 58, 49, .66);
+  --selection-ink: #2f3a31;
+  --scribble-ink: rgba(155, 90, 70, .62);
+  --accent-shadow: rgba(74, 107, 82, .16);
+  --decor-shadow: rgba(47, 58, 49, .14);
+
+  --art-base: #3d5c46;
+  --art-glow: rgba(216, 201, 143, .40);
+  --art-scan: rgba(246, 244, 232, .05);
+  --art-grid: rgba(47, 58, 49, .08);
+  --art-tint: rgba(216, 201, 143, .26);
+  --tape: rgba(216, 201, 143, .70);
+
+  --radius: 3px;
+  --grain-opacity: .07;
+  --grain-blend: multiply;
+  --decor-opacity: .5;
+  color-scheme: light;
+}
+
+:root[data-style="sage"][data-theme="dark"] {
+  --paper: #1b241d;
+  --paper-deep: #243026;
+  --paper-light: #202b22;
+  --ink: #dfe6d9;
+  --muted: #a0b09f;
+  --line: rgba(223, 230, 217, .14);
+  --green: #8fb89a;
+  --green-dark: #b3d3bb;
+  --red: #d08e73;
+  --yellow: #cfc081;
+  --shadow: 0 18px 42px rgba(0, 0, 0, .32);
+
+  --on-accent: #17211a;
+  --on-accent-soft: rgba(23, 33, 26, .78);
+  --on-accent-meta: rgba(23, 33, 26, .70);
+  --on-accent-faint: rgba(23, 33, 26, .32);
+  --on-featured: rgba(27, 36, 29, .86);
+  --on-featured-meta: rgba(27, 36, 29, .70);
+  --selection-ink: #17211a;
+  --scribble-ink: rgba(208, 142, 115, .68);
+  --accent-shadow: rgba(143, 184, 154, .16);
+  --decor-shadow: rgba(0, 0, 0, .30);
+
+  --art-base: #2c4632;
+  --art-glow: rgba(207, 192, 129, .32);
+  --art-grid: rgba(223, 230, 217, .07);
+  --art-tint: rgba(207, 192, 129, .22);
+  --tape: rgba(207, 192, 129, .72);
+  color-scheme: dark;
+}
+
+/* --------------------------------------------------------------------------
+   终端绿 / TERMINAL
+   浅色像点阵打印纸，深色是黑底荧光绿；等宽字、扫描线、硬边框、零手绘。
+   -------------------------------------------------------------------------- */
+:root[data-style="terminal"] {
+  --paper: #eef2e9;
+  --paper-deep: #dfe7d8;
+  --paper-light: #f7faf3;
+  --ink: #122b16;
+  --muted: #4e6b52;
+  --line: rgba(18, 43, 22, .20);
+  --green: #1f7a35;
+  --green-dark: #145a26;
+  --red: #a33a2f;
+  --yellow: #b7d44a;
+  --shadow: 0 0 0 1px rgba(31, 122, 53, .18);
+
+  --on-accent: #eaffea;
+  --on-accent-soft: rgba(234, 255, 234, .78);
+  --on-accent-meta: rgba(234, 255, 234, .68);
+  --on-accent-faint: rgba(234, 255, 234, .34);
+  --on-featured: rgba(18, 43, 22, .86);
+  --on-featured-meta: rgba(18, 43, 22, .70);
+  --selection-ink: #0b1f0d;
+  --scribble-ink: rgba(31, 122, 53, .60);
+  --accent-shadow: rgba(31, 122, 53, .18);
+  --decor-shadow: rgba(18, 43, 22, .16);
+
+  --art-base: #1c4a28;
+  --art-glow: rgba(183, 212, 74, .36);
+  --art-scan: rgba(31, 122, 53, .09);
+  --art-grid: rgba(31, 122, 53, .10);
+  --art-tint: rgba(183, 212, 74, .28);
+  --tape: rgba(183, 212, 74, .76);
+
+  --sans: "SFMono-Regular", "JetBrains Mono", Menlo, Consolas, "Courier New", "PingFang SC", monospace;
+  --serif: "SFMono-Regular", "JetBrains Mono", Menlo, Consolas, "Courier New", "PingFang SC", monospace;
+
+  --radius: 0px;
+  --grain-image: repeating-linear-gradient(to bottom, rgba(31, 122, 53, .055) 0 1px, transparent 1px 3px);
+  --grain-size: auto;
+  --grain-opacity: .9;
+  --grain-blend: normal;
+  --decor-opacity: 0;
+  color-scheme: light;
+}
+
+:root[data-style="terminal"][data-theme="dark"] {
+  --paper: #050d07;
+  --paper-deep: #0b1a0f;
+  --paper-light: #0a1710;
+  --ink: #c8f5cf;
+  --muted: #6f9e78;
+  --line: rgba(140, 240, 160, .18);
+  --green: #4ce07a;
+  --green-dark: #8bf0a6;
+  --red: #ff7b6b;
+  --yellow: #d4f26a;
+  --shadow: 0 0 0 1px rgba(76, 224, 122, .22);
+
+  --on-accent: #04120a;
+  --on-accent-soft: rgba(4, 18, 10, .80);
+  --on-accent-meta: rgba(4, 18, 10, .70);
+  --on-accent-faint: rgba(4, 18, 10, .34);
+  --on-featured: rgba(5, 13, 7, .90);
+  --on-featured-meta: rgba(5, 13, 7, .72);
+  --selection-ink: #04120a;
+  --scribble-ink: rgba(76, 224, 122, .60);
+  --accent-shadow: rgba(76, 224, 122, .18);
+  --decor-shadow: rgba(0, 0, 0, .40);
+
+  --art-base: #0d3b1d;
+  --art-glow: rgba(76, 224, 122, .28);
+  --art-scan: rgba(76, 224, 122, .10);
+  --art-grid: rgba(76, 224, 122, .10);
+  --art-tint: rgba(76, 224, 122, .24);
+  --tape: rgba(76, 224, 122, .74);
+
+  --grain-image: repeating-linear-gradient(to bottom, rgba(76, 224, 122, .05) 0 1px, transparent 1px 3px);
+  --grain-opacity: .9;
+  color-scheme: dark;
+}
+
+/* --------------------------------------------------------------------------
+   风格微调：让装饰层随风格收敛，而不是简单粗暴地全部 display:none
+   -------------------------------------------------------------------------- */
+
+/* 科技风与简约风：去掉纸张倾斜，保留结构 */
+:root[data-style="tech"] .paper-sheet--back,
+:root[data-style="tech"] .paper-sheet--main,
+:root[data-style="tech"] .hero-art:before,
+:root[data-style="tech"] .hero-art:after,
+:root[data-style="tech"] .hero-art__grain,
+:root[data-style="tech"] .sketch-window,
+:root[data-style="tech"] .art-tape,
+:root[data-style="tech"] .art-stamp,
+:root[data-style="tech"] .hero-doodle,
+:root[data-style="tech"] .about-board,
+:root[data-style="tech"] .board-note,
+:root[data-style="minimal"] .paper-sheet--back,
+:root[data-style="minimal"] .paper-sheet--main,
+:root[data-style="minimal"] .hero-art:before,
+:root[data-style="minimal"] .hero-art:after,
+:root[data-style="minimal"] .hero-art__grain,
+:root[data-style="minimal"] .sketch-window,
+:root[data-style="minimal"] .about-board,
+:root[data-style="minimal"] .board-note { transform: none; }
+
+/* 科技风：手绘元素淡出，网格背景成为主角 */
+:root[data-style="tech"] .hero-doodle,
+:root[data-style="tech"] .art-tape,
+:root[data-style="tech"] .art-stamp,
+:root[data-style="tech"] .art-scribble,
+:root[data-style="tech"] .note-card__scribble,
+:root[data-style="tech"] .note-card__circle { opacity: var(--decor-opacity); }
+:root[data-style="tech"] .hero-art__grain { clip-path: none; }
+:root[data-style="tech"] .paper-sheet--main { background-image: linear-gradient(to bottom, var(--art-grid) 1px, transparent 1px); background-size: 100% 32px; }
+:root[data-style="tech"] .note-card,
+:root[data-style="tech"] .button,
+:root[data-style="tech"] .filter-chip { border-radius: 0; }
+
+/* 复古风：双线边框与更重的分隔 */
+:root[data-style="retro"] .note-card { border-width: 2px; box-shadow: 4px 4px 0 var(--decor-shadow); }
+:root[data-style="retro"] .note-card--featured,
+:root[data-style="retro"] .note-card--dark { border-color: transparent; }
+:root[data-style="retro"] .contact-card:before { border-width: 2px; }
+:root[data-style="retro"] .about-board:before { border-width: 2px; }
+:root[data-style="retro"] .filter-chip { border-radius: 0; }
+:root[data-style="retro"] .hero-art__grain { clip-path: none; }
+:root[data-style="retro"] .paper-sheet--main { background-image: linear-gradient(to bottom, var(--art-grid) 1px, transparent 1px); background-size: 100% 32px; }
+
+/* 简约风：隐藏纯手绘装饰，卡片回归单色与细线 */
+:root[data-style="minimal"] .hero-doodle,
+:root[data-style="minimal"] .hero-doodle:after,
+:root[data-style="minimal"] .art-tape,
+:root[data-style="minimal"] .art-stamp,
+:root[data-style="minimal"] .art-scribble,
+:root[data-style="minimal"] .note-card__scribble,
+:root[data-style="minimal"] .note-card__circle,
+:root[data-style="minimal"] .paper-sheet__footer,
+:root[data-style="minimal"] .about-board:before,
+:root[data-style="minimal"] .contact-card:before { display: none; }
+:root[data-style="minimal"] .hero-art__grain { clip-path: none; opacity: .9; }
+:root[data-style="minimal"] .paper-sheet--main { background-image: none; }
+:root[data-style="minimal"] .sketch-window { background: transparent; }
+:root[data-style="minimal"] .note-card--featured,
+:root[data-style="minimal"] .note-card--dark { border-color: var(--line); }
+:root[data-style="minimal"] .note-card:hover { transform: translateY(-4px); }
+:root[data-style="minimal"] .button:hover { transform: translateY(-2px); }
+:root[data-style="minimal"] .filter-chip { border-radius: 0; }
+:root[data-style="minimal"] .button,
+:root[data-style="minimal"] .note-card { border-radius: 0; }
+
+/* 护眼豆沙绿：保留手绘感，只把装饰压淡、圆角放柔 */
+:root[data-style="sage"] .hero-doodle,
+:root[data-style="sage"] .art-tape,
+:root[data-style="sage"] .art-stamp,
+:root[data-style="sage"] .art-scribble,
+:root[data-style="sage"] .note-card__scribble,
+:root[data-style="sage"] .note-card__circle { opacity: var(--decor-opacity); }
+:root[data-style="sage"] .note-card,
+:root[data-style="sage"] .button,
+:root[data-style="sage"] .filter-chip { border-radius: var(--radius); }
+:root[data-style="sage"] .hero-art__grain { clip-path: none; }
+
+/* 终端绿：零手绘、零倾斜、直角硬边，扫描线由 --grain-image 提供 */
+:root[data-style="terminal"] .paper-sheet--back,
+:root[data-style="terminal"] .paper-sheet--main,
+:root[data-style="terminal"] .hero-art:before,
+:root[data-style="terminal"] .hero-art:after,
+:root[data-style="terminal"] .hero-art__grain,
+:root[data-style="terminal"] .sketch-window { transform: none; }
+:root[data-style="terminal"] .hero-doodle,
+:root[data-style="terminal"] .hero-doodle:after,
+:root[data-style="terminal"] .art-tape,
+:root[data-style="terminal"] .art-stamp,
+:root[data-style="terminal"] .art-scribble,
+:root[data-style="terminal"] .note-card__scribble,
+:root[data-style="terminal"] .note-card__circle,
+:root[data-style="terminal"] .paper-sheet__footer,
+:root[data-style="terminal"] .about-board:before,
+:root[data-style="terminal"] .contact-card:before { display: none; }
+:root[data-style="terminal"] .hero-art__grain { clip-path: none; }
+:root[data-style="terminal"] .paper-sheet--main { background-image: repeating-linear-gradient(to bottom, var(--art-grid) 0 1px, transparent 1px 4px); }
+:root[data-style="terminal"] .note-card,
+:root[data-style="terminal"] .note-card--featured,
+:root[data-style="terminal"] .note-card--dark,
+:root[data-style="terminal"] .button,
+:root[data-style="terminal"] .filter-chip { border-radius: 0; border-width: 1px; box-shadow: none; }
+:root[data-style="terminal"] .note-card--featured,
+:root[data-style="terminal"] .note-card--dark { border-color: var(--green); }
+:root[data-style="terminal"] .button--solid { box-shadow: 3px 3px 0 var(--accent-shadow); }
+
+/* 风格/明暗切换时的一次性颜色过渡，仅由 JS 临时挂载 */
+html.is-style-switching,
+html.is-style-switching *,
+html.is-style-switching *:before,
+html.is-style-switching *:after {
+  transition-property: background-color, color, border-color, fill, stroke, box-shadow !important;
+  transition-duration: .32s !important;
+  transition-timing-function: ease !important;
+}
+
+/* ==========================================================================
+   打印 / PRINT
+   无论屏幕上选了哪套风格、哪种明暗，打印与导出 PDF 一律走「简约风」：
+   白纸黑字、去掉噪点与装饰、隐藏所有交互控件，省墨且可读。
+   放在文件末尾以保证能覆盖上面各风格的选择器（同等特异性下后者胜）。
+   ========================================================================== */
+@media print {
+  @page { margin: 18mm 16mm; }
+
+  :root,
+  :root[data-theme],
+  :root[data-style],
+  :root[data-theme][data-style],
+  :root[data-style][data-theme] {
+    --paper: #ffffff;
+    --paper-deep: #ffffff;
+    --paper-light: #ffffff;
+    --ink: #000000;
+    --muted: #444444;
+    --line: #bbbbbb;
+    --green: #ffffff;
+    --green-dark: #000000;
+    --red: #000000;
+    --yellow: #ffffff;
+    --shadow: none;
+    --on-accent: #000000;
+    --on-accent-soft: #333333;
+    --on-accent-meta: #333333;
+    --on-accent-faint: #888888;
+    --on-featured: #000000;
+    --on-featured-meta: #333333;
+    --selection-ink: #000000;
+    --scribble-ink: #666666;
+    --accent-shadow: transparent;
+    --decor-shadow: transparent;
+    --art-base: #ffffff;
+    --art-glow: transparent;
+    --art-scan: transparent;
+    --art-grid: transparent;
+    --art-tint: transparent;
+    --tape: transparent;
+    --grain-image: none;
+    --grain-opacity: 0;
+    --radius: 0px;
+    --decor-opacity: 0;
+    color-scheme: light;
+  }
+
+  html, body { background: #ffffff !important; color: #000000 !important; }
+  body { font-size: 11pt; line-height: 1.6; }
+  body:before { display: none !important; }
+
+  /* 入场动画在纸上会把内容整片留白，务必强制显示 */
+  .js .reveal, .reveal { opacity: 1 !important; transform: none !important; visibility: visible !important; }
+
+  .skip-link,
+  .site-header, .mobile-menu, .search-drawer, .menu-toggle,
+  .style-picker, .mobile-style, .footer-style, .icon-button,
+  .hero-art, .hero-doodle, .art-tape, .art-stamp, .art-scribble,
+  .paper-sheet--back, .note-card__scribble, .note-card__circle,
+  .about-board:before, .contact-card:before, .paper-sheet__footer,
+  .filter-row, .hero-actions, .chapter-nav, .article-aside,
+  .site-footer .footer-links, .error-mark { display: none !important; }
+
+  .site-footer { border-top: 1px solid #bbbbbb; padding-top: 10px; }
+  .site-footer .footer-top { padding: 0 0 8px; border: 0; }
+  .footer-bottom { color: #444444 !important; }
+
+  .note-card, .note-card--featured, .note-card--dark,
+  .contact-card, .article-callout, .article-figure, .button {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: 1px solid #bbbbbb !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  .button--solid { border: 1px solid #000000 !important; }
+  .note-card h3, .note-card p, .article-callout p, .article-entry, .article-entry p { color: #000000 !important; }
+
+  a, a:link, a:visited { color: #000000 !important; text-decoration: underline; }
+  .article-entry a { border-bottom: 0 !important; }
+  .article-entry { font-size: 11pt; line-height: 1.65; }
+  .article-entry h2 { font-size: 18pt; margin: 22pt 0 8pt; }
+  .article-entry h3 { font-size: 14pt; margin: 16pt 0 6pt; }
+  h1, h2, h3 { break-after: avoid; page-break-after: avoid; }
+  figure, table, pre, blockquote, .article-figure, .article-callout { break-inside: avoid; page-break-inside: avoid; }
+  .article-figure svg, .article-figure img { min-width: 0 !important; max-width: 100% !important; }
+  .article-entry table { min-width: 0 !important; }
+  .article-entry pre, .article-entry code { background: #ffffff !important; color: #000000 !important; }
+}

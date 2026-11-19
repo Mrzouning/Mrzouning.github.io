@@ -16,8 +16,9 @@
 ```text
 .
 ├── index.html                    # 首页：介绍、文章、项目、经历和联系方式
-├── main.css                     # 全站视觉样式、响应式布局和深色模式
-├── main.js                      # 全站搜索、筛选、主题切换、移动菜单和滚动动画
+├── main.css                     # 全站视觉样式、响应式布局、明暗模式与语义色变量
+├── theme-styles.css              # 六套外观风格令牌、装饰收敛规则与打印样式
+├── main.js                      # 搜索、筛选、主题/风格切换、自动模式、移动菜单和滚动动画
 ├── search-index.js               # 独立文章搜索索引，覆盖文章页和归档页
 ├── favicon.svg                   # 站点图标（SVG）
 ├── apple-touch-icon.png          # iOS 主屏图标（180×180，由 apple-touch-icon.svg 生成）
@@ -49,6 +50,76 @@ http://127.0.0.1:4173/
 ```
 
 也可以使用任意静态文件服务器预览。修改 HTML、CSS 或 JavaScript 后刷新页面即可看到结果。
+
+## 外观风格系统
+
+站点有两套互相独立的视觉维度，可以任意组合（6 套风格 × 明暗 = 12 种外观）：
+
+| 维度 | 属性 | 取值 | 入口 |
+|---|---|---|---|
+| 明暗 | `data-theme` | `light` / `dark` | 导航栏的太阳/月亮按钮（浅色 → 深色 → 跟随系统） |
+| 风格 | `data-style` | `editorial` / `tech` / `retro` / `minimal` / `sage` / `terminal`，另加 `auto` | 导航栏的下拉框（移动端在折叠菜单内） |
+
+六套风格：
+
+| 风格 | 观感 |
+|---|---|
+| `editorial` 纸感手稿 | 默认。米黄纸、墨绿砖红、纸张倾斜与手绘涂鸦，复用 `main.css` 基础变量 |
+| `tech` 科技风 | 冷蓝网格、等宽标题、直角、零旋转 |
+| `retro` 复古风 | 做旧牛皮纸、打字机小字、双线边框、更重的纸纹 |
+| `minimal` 简约风 | 近乎无彩、去掉噪点与所有手绘装饰 |
+| `sage` 护眼豆沙绿 | 低饱和灰绿纸、墨绿正文，为长时间阅读降低刺激 |
+| `terminal` 终端绿 | 浅色像点阵打印纸，深色是黑底荧光绿；等宽字、扫描线、零手绘 |
+
+- `editorial` 是默认风格，未设置 `data-style` 时的表现与旧版一致。
+- 每套风格在 `theme-styles.css` 里用 `:root[data-style="x"]`（浅色）和 `:root[data-style="x"][data-theme="dark"]`（深色）两组令牌定义，并可按风格追加装饰收敛规则。
+- 选择写入 `localStorage`（`z-blog-style`、`z-blog-theme`），并在各页 `head` 的内联脚本里于首屏渲染前应用，避免跳页或刷新时闪回。
+- 链接可直接指定外观，便于分享：`/?style=tech&theme=dark`、`/?style=auto`。参数应用后写入本地存储并从地址栏清除。
+
+### 自动模式
+
+下拉框最后一项 `auto` 不是风格而是一个模式，解析规则（引导脚本与 `main.js` 的 `resolveChoice` 必须保持一致）：
+
+1. `prefers-contrast: more` → `minimal`（无障碍优先）；
+2. 否则按访问者本地时间：07:00–18:59 用 `editorial`，19:00–06:59 用 `tech`。
+
+`data-style` 始终写解析后的具体风格名；`localStorage` 存用户选择（可能是 `auto`）。页面重新可见或整点变化时静默重算，不弹播报。默认仍是 `editorial`，不会覆盖已有用户的选择。
+
+### 下拉控件
+
+`main.js` 动态注入一个带双色色块预览的 listbox：每项显示风格名、一句说明和勾选态。原生 `<select>` 仍保留在 DOM 中作为无 JS 兜底，JS 接管后隐藏。焦点留在触发按钮上，用 `aria-activedescendant` 指向高亮项，支持 `↑` `↓` `Home` `End` `Enter` `Space` `Esc` `Tab` 和点击外部关闭。桌面与移动端两个实例状态同步。
+
+页脚 `footer-bottom` 会显示当前风格名和「切换」入口；窄屏点击后会展开折叠菜单并聚焦下拉框。
+
+### 打印
+
+`theme-styles.css` 末尾的 `@media print` 无论屏幕上是哪套风格、哪种明暗，一律强制走简约风：白纸黑字、去掉噪点与装饰、隐藏导航/搜索/切换器/页脚风格标识，并强制显示入场动画元素（否则打印会是一片空白）。`figure`、`table`、`pre` 避免跨页截断。打印规则放在文件末尾，以保证能覆盖前面所有风格选择器。
+
+### 新增一套风格
+
+1. 在 `theme-styles.css` 增加两组令牌：
+
+   ```css
+   :root[data-style="your-style"] { /* 浅色令牌 */ }
+   :root[data-style="your-style"][data-theme="dark"] { /* 深色令牌 */ }
+   ```
+
+   至少覆盖 `--paper` `--paper-deep` `--paper-light` `--ink` `--muted` `--line` `--green` `--green-dark` `--red` `--yellow` `--shadow`，以及 `--on-accent` `--on-featured`（决定强调色块上的文字颜色）。其余 `--art-*`、圆角、纸纹、装饰透明度按需覆盖。
+2. 在 `main.js` 的 `STYLES` 数组加一项：`{ id, label, hint, swatch: [纸色, 强调色] }`，并在 `STYLE_COLORS` 加 `light` / `dark` 两个 `theme-color`。
+3. 需要时在同一文件末尾追加装饰收敛规则。完成。无需改动任何 HTML：各页引导脚本按通用规则读取风格名，没有白名单；打印样式也不需要跟着改。
+
+风格总数建议不超过 6 套，避免选择过载。
+
+### 语义色变量
+
+换肤最容易翻车的是「写死的颜色」。`main.css` 里所有影响可读性的颜色都已收敛为变量：
+
+- `--on-accent` / `--on-accent-soft` / `--on-accent-meta` / `--on-accent-faint`：彩色或深色块上的文字及其层级。
+- `--on-featured` / `--on-featured-meta`：暖色主推卡片上的文字。
+- `--art-base` / `--art-glow` / `--art-scan` / `--art-grid` / `--art-tint` / `--tape`：首页手绘插画配色。
+- `--radius`、`--grain-image`、`--grain-size`、`--grain-opacity`、`--grain-blend`：圆角与背景质感。
+
+新增组件时优先使用这些变量，不要在组件内直接写十六进制色值，否则切换到新风格时会撞色。
 
 ## 内容目录
 
@@ -111,4 +182,5 @@ git push origin master
 - 外部链接使用 `target="_blank" rel="noopener"`。
 - 文章页面保持中文标题、描述、日期和阅读时长一致。
 - 修改布局后至少检查桌面端和 375px 左右的移动端宽度。
+- 新增或修改风格后，按「6 套风格 × 明暗」检查强调色块上的文字对比度，避免深色块配白字或浅色块配浅字；同时用浏览器打印预览确认正文不是空白。
 - AI 相关文章优先写真实案例，补充输入、输出、失败和评估证据。

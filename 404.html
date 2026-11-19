@@ -6,7 +6,7 @@
   <meta name="description" content="小邹博客页面不存在。返回首页，继续阅读 AI、工程和生活记录。">
   <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f1e6">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#17211e">
-  <script>(function(){var d=document.documentElement;d.classList.add("js");try{var t=localStorage.getItem("z-blog-theme");if(t!=="dark"&&t!=="light")t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";d.dataset.theme=t}catch(e){}})();</script>
+  <script>(function(){var d=document.documentElement;d.classList.add("js");var q=null;try{q=new URLSearchParams(location.search)}catch(e){}try{var t=(q&&q.get("theme"))||localStorage.getItem("z-blog-theme");if(t!=="dark"&&t!=="light")t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";d.dataset.theme=t}catch(e){}try{var s=(q&&q.get("style"))||localStorage.getItem("z-blog-style");if(s==="auto"){var h=new Date().getHours();s=(window.matchMedia&&window.matchMedia("(prefers-contrast: more)").matches)?"minimal":(h>=7&&h<19?"editorial":"tech")}if(s&&/^[a-z0-9-]{1,24}$/.test(s))d.dataset.style=s}catch(e){}})();</script>
   <meta name="author" content="小邹">
   <link rel="canonical" href="https://mrzouning.github.io/404.html">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -22,6 +22,7 @@
   <meta name="robots" content="noindex">
   <title>页面走丢了 · 小邹博客</title>
   <link rel="stylesheet" href="/main.css">
+  <link rel="stylesheet" href="/theme-styles.css">
 </head>
 <body class="article-page error-page">
   <a class="skip-link" href="#main-content">跳到主要内容</a>

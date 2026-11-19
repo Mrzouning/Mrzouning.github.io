@@ -6,7 +6,7 @@
   <meta name="description" content="小邹的个人博客：记录 AI 学习、Agent 协作、前端工程、项目实践与生活。">
   <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f1e6">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#17211e">
-  <script>(function(){var d=document.documentElement;d.classList.add("js");try{var t=localStorage.getItem("z-blog-theme");if(t!=="dark"&&t!=="light")t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";d.dataset.theme=t}catch(e){}})();</script>
+  <script>(function(){var d=document.documentElement;d.classList.add("js");var q=null;try{q=new URLSearchParams(location.search)}catch(e){}try{var t=(q&&q.get("theme"))||localStorage.getItem("z-blog-theme");if(t!=="dark"&&t!=="light")t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";d.dataset.theme=t}catch(e){}try{var s=(q&&q.get("style"))||localStorage.getItem("z-blog-style");if(s==="auto"){var h=new Date().getHours();s=(window.matchMedia&&window.matchMedia("(prefers-contrast: more)").matches)?"minimal":(h>=7&&h<19?"editorial":"tech")}if(s&&/^[a-z0-9-]{1,24}$/.test(s))d.dataset.style=s}catch(e){}})();</script>
   <meta name="author" content="小邹">
   <link rel="canonical" href="https://mrzouning.github.io/">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -24,6 +24,7 @@
   {"@context":"https://schema.org","@type":"WebSite","name":"小邹博客","url":"https://mrzouning.github.io/","description":"记录 AI 学习、Agent 协作、前端工程、项目实践与生活。","inLanguage":"zh-CN","publisher":{"@type":"Person","name":"小邹","url":"https://github.com/Mrzouning","sameAs":["https://github.com/Mrzouning","mailto:mrzouning812@gmail.com"]}}
   </script>
   <link rel="stylesheet" href="/main.css">
+  <link rel="stylesheet" href="/theme-styles.css">
 </head>
 <body class="home-page">
   <a class="skip-link" href="#main-content">跳到主要内容</a>
