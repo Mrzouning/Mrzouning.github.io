@@ -348,6 +348,32 @@
     syncStyleUI();
   }
 
+  /* 游戏入口：动态注入导航，16 个页面无需逐个改 HTML。
+     无 JS 时首页「项目」区块仍有静态链接可到达游戏。 */
+  function ensureGameNav() {
+    var path = '/games/watermelon/';
+    var active = window.location.pathname.indexOf('/games/') === 0;
+    var nav = header ? header.querySelector('.site-nav') : null;
+    if (nav && !nav.querySelector('[data-game-nav]')) {
+      var a = document.createElement('a');
+      a.href = path;
+      a.setAttribute('data-game-nav', '');
+      a.textContent = '游戏';
+      if (active) { a.className = 'is-active'; a.setAttribute('aria-current', 'page'); }
+      nav.appendChild(a);
+    }
+    if (mobileMenu && !mobileMenu.querySelector('[data-game-nav]')) {
+      var m = document.createElement('a');
+      m.href = path;
+      m.setAttribute('data-game-nav', '');
+      m.innerHTML = '游戏 <span>06</span>';
+      if (active) m.className = 'is-active';
+      var searchLink = mobileMenu.querySelector('.mobile-search-link');
+      if (searchLink) mobileMenu.insertBefore(m, searchLink);
+      else mobileMenu.appendChild(m);
+    }
+  }
+
   function styleFromUrl() {
     try {
       var value = new URLSearchParams(window.location.search).get('style');
@@ -357,6 +383,7 @@
 
   ensureSearchUI();
   ensureStyleUI();
+  ensureGameNav();
   ensureSearchUI();
   ensureStyleUI();
 
@@ -626,8 +653,9 @@
     window.setTimeout(remove, 1800);
   }
 
-  function isFormControl(node) {
-    return !!(node && node.closest && node.closest('input, textarea, select, [contenteditable]'));
+  function isIgnoredTarget(node) {
+    /* 表单控件与游戏画布内的点击不产生 +1 飘字，避免划刀时刷屏 */
+    return !!(node && node.closest && node.closest('input, textarea, select, [contenteditable], [data-no-click-pop]'));
   }
 
   function init() {
@@ -635,7 +663,7 @@
       down = null;
       if (event.button !== 0 || event.isPrimary === false) return;
       if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
-      if (isFormControl(event.target)) return;
+      if (isIgnoredTarget(event.target)) return;
       down = { x: event.clientX, y: event.clientY, at: Date.now(), id: event.pointerId };
     }, { passive: true });
 

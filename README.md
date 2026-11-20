@@ -18,8 +18,10 @@
 ├── index.html                    # 首页：介绍、文章、项目、经历和联系方式
 ├── main.css                     # 全站视觉样式、响应式布局、明暗模式与语义色变量
 ├── theme-styles.css              # 六套外观风格令牌、装饰收敛规则与打印样式
-├── main.js                      # 搜索、筛选、主题/风格切换、自动模式、移动菜单和滚动动画
-├── search-index.js               # 独立文章搜索索引，覆盖文章页和归档页
+├── main.js                      # 搜索、筛选、主题/风格/游戏导航、点击飘字、自动模式与滚动动画
+├── search-index.js               # 独立搜索索引，覆盖文章、归档页和游戏页
+├── games/
+│   └── watermelon/               # 切西瓜：index.html + game.css + game.js（纯 Canvas）
 ├── favicon.svg                   # 站点图标（SVG）
 ├── apple-touch-icon.png          # iOS 主屏图标（180×180，由 apple-touch-icon.svg 生成）
 ├── social-card.png               # Open Graph 分享图（1200×630，由 social-card.svg 生成）
@@ -131,6 +133,18 @@ http://127.0.0.1:4173/
 - 装饰层 `pointer-events: none`，不拦截链接、按钮、搜索与风格下拉；每个飘字在 `animationend` 后自动移除，并有超时兜底，同屏最多 40 枚。
 - 用 `pointerdown` 记录、`pointerup` 判定，因此拖拽选字、页面滚动、长按（>700ms）、右键 / 修饰键点击、输入框内点击都不会误触发。
 - 颜色跟随当前风格的 `--red`，所以六套风格与深浅色下都可读；打印时整层隐藏；开启「减少动效」偏好时改为一次短淡出，不做位移。
+
+## 网页游戏
+
+### 切西瓜 `/games/watermelon/`
+
+纯 Canvas 2D 实现，无构建步骤、无第三方库、无外部资源（音效由 Web Audio 实时合成）。
+
+- **玩法**：60 秒、3 条命。水果从底部抛起，按住鼠标或手指划过即可切开；一刀切中 2 个以上触发连击加分，漏掉水果扣一颗心，切到炸弹直接结束。最高分与音效开关写入 `localStorage`。
+- **风格联动**：`game.js` 通过 `getComputedStyle` 读取 `--paper` / `--ink` / `--red` / `--line` 等变量，并用 `MutationObserver` 监听 `data-style` / `data-theme` 变化，所以切换六套外观或明暗时，画布背景、网格、描边、刀光会实时跟着变；水果本身保持自然色以保证辨识度。
+- **接入方式**：游戏页复用站点的 `header` / `footer` 与 `main.css`、`theme-styles.css`、`main.js`。导航中的「游戏」项由 `ensureGameNav()` 动态注入（桌面 `.site-nav` 与移动端 `.mobile-menu`），16 个页面零改动；首页「项目」区块另有静态链接作为无 JS 兜底。
+- **与点击飘字共存**：`.game-stage` 带 `data-no-click-pop`，`main.js` 的 `isIgnoredTarget()` 会跳过该容器内的指针事件，避免划刀时刷出大量 `+1`。
+- 支持鼠标与触屏（`pointerdown/move/up` + `touch-action: none`）、`devicePixelRatio` 高清渲染、`ResizeObserver` 自适应、`prefers-reduced-motion`（减少粒子并关闭震动）、空格键开始 / 重开、`M` 键切换音效；打印时隐藏画布。
 
 ## 内容目录
 

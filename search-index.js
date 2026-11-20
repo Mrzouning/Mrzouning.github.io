@@ -1,5 +1,14 @@
 window.blogSearchIndex = [
   {
+    href: '/games/watermelon/',
+    title: '切西瓜',
+    description: '一个放在博客里的小游戏：划过屏幕切开水果，连击加分、小心炸弹，六套外观风格自动适配。',
+    category: 'game',
+    categoryLabel: 'GAME / CANVAS',
+    keywords: '切西瓜 游戏 水果忍者 Canvas 小游戏 连击 炸弹 西瓜 触屏',
+    content: '开始游戏 重新开始 音效 最高分 连击 60 秒 三次失误 鼠标 触屏'
+  },
+  {
     href: '/2026/11/18/frontend-where-to-go/',
     title: '前端何去何从，是坚持还是转行',
     description: '关于前端职业的一次认真拆解：三次能力迁移、AI 真正替代的工作、该不该转行的判断标准，以及可执行的建议。',

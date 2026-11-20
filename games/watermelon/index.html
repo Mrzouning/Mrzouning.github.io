@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="切西瓜：一个放在小邹博客里的小游戏。划过屏幕切开水果，连击加分、小心炸弹，六套外观风格自动适配。">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f1e6">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#17211e">
+  <script>(function(){var d=document.documentElement;d.classList.add("js");var q=null;try{q=new URLSearchParams(location.search)}catch(e){}try{var t=(q&&q.get("theme"))||localStorage.getItem("z-blog-theme");if(t!=="dark"&&t!=="light")t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";d.dataset.theme=t}catch(e){}try{var s=(q&&q.get("style"))||localStorage.getItem("z-blog-style");if(s==="auto"){var h=new Date().getHours();s=(window.matchMedia&&window.matchMedia("(prefers-contrast: more)").matches)?"minimal":(h>=7&&h<19?"editorial":"tech")}if(s&&/^[a-z0-9-]{1,24}$/.test(s))d.dataset.style=s}catch(e){}})();</script>
+  <meta name="author" content="小邹">
+  <link rel="canonical" href="https://mrzouning.github.io/games/watermelon/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="alternate" type="application/rss+xml" title="小邹博客 RSS" href="/feed.xml">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="切西瓜 · 小邹博客">
+  <meta property="og:description" content="划过屏幕，把夏天切开。一个放在博客里的小游戏。">
+  <meta property="og:url" content="https://mrzouning.github.io/games/watermelon/">
+  <meta property="og:site_name" content="小邹博客">
+  <meta property="og:image" content="https://mrzouning.github.io/social-card.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>切西瓜 · 小邹博客</title>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebApplication","name":"切西瓜","url":"https://mrzouning.github.io/games/watermelon/","description":"划过屏幕切开水果的网页小游戏，支持鼠标与触屏，含连击、炸弹与本地最高分。","applicationCategory":"GameApplication","operatingSystem":"Any","inLanguage":"zh-CN","author":{"@type":"Person","name":"小邹","url":"https://github.com/Mrzouning"}}
+  </script>
+  <link rel="stylesheet" href="/main.css">
+  <link rel="stylesheet" href="/theme-styles.css">
+  <link rel="stylesheet" href="/games/watermelon/game.css">
+</head>
+<body class="game-page">
+  <a class="skip-link" href="#main-content">跳到主要内容</a>
+
+  <header class="site-header" data-header>
+    <div class="site-header__inner">
+      <a class="brand" href="/" aria-label="小邹博客首页">
+        <span class="brand__mark">z.</span>
+        <span class="brand__copy"><strong>Mr zou</strong><small>notes / things / life</small></span>
+      </a>
+
+      <nav class="site-nav" aria-label="主导航">
+        <a href="/">首页</a>
+        <a href="/#notes">随笔</a>
+        <a href="/archives/">归档</a>
+        <a href="/#about">关于</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="icon-button" type="button" data-search-toggle aria-expanded="false" aria-controls="site-search-drawer" aria-label="打开搜索" title="搜索"><span aria-hidden="true">⌕</span></button>
+        <button class="icon-button" type="button" data-theme-toggle aria-pressed="false" aria-label="切换深色模式" title="切换深色模式"><span aria-hidden="true" data-theme-icon>☼</span></button>
+        <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span><span></span><em>菜单</em></button>
+      </div>
+    </div>
+    <div class="search-drawer" id="site-search-drawer" data-search-drawer>
+      <label for="site-search">搜索这个博客</label>
+      <input id="site-search" type="search" placeholder="输入关键词，比如：AI、Agent、项目" autocomplete="off">
+      <span class="search-hint">Esc 关闭</span>
+      <div class="search-results" data-search-results aria-live="polite"></div>
+    </div>
+    <div class="mobile-menu" id="mobile-menu" data-mobile-menu>
+      <a href="/">首页 <span>01</span></a><a href="/#notes">随笔 <span>02</span></a><a href="/#projects">项目 <span>03</span></a><a href="/archives/">归档 <span>04</span></a><a href="/#about">关于 <span>05</span></a><button class="mobile-search-link" type="button" data-mobile-search>搜索 <span>⌕</span></button>
+    </div>
+  </header>
+
+  <main id="main-content" class="game-main page-width">
+    <header class="game-hero reveal">
+      <p class="eyebrow">GAME / 001 · A LITTLE SUMMER</p>
+      <h1>切西瓜</h1>
+      <p class="game-lead">划过屏幕，把夏天切开。</p>
+      <p class="game-detail">水果从底下抛上来，按住鼠标或手指划过它们就行。六十秒、三次失误机会，别碰到炸弹。</p>
+    </header>
+
+    <section class="game-shell reveal" aria-label="切西瓜游戏">
+      <div class="game-stage" data-no-click-pop>
+        <canvas id="game-canvas" aria-label="切西瓜游戏画布：水果从下方抛起，拖动鼠标或手指划过即可切开"></canvas>
+
+        <div class="game-hud" aria-live="off">
+          <div class="hud-item"><span>SCORE</span><b data-score>0</b></div>
+          <div class="hud-item hud-item--time"><span>TIME</span><b data-time>60</b></div>
+          <div class="hud-item"><span>LIFE</span><b class="hud-hearts" data-lives>♥ ♥ ♥</b></div>
+        </div>
+
+        <div class="game-combo" data-combo aria-live="polite"></div>
+
+        <div class="game-overlay" data-overlay="start">
+          <div class="overlay-card">
+            <p class="eyebrow">READY / 准备好了吗</p>
+            <h2>一刀下去，<br><em>夏天就熟了。</em></h2>
+            <p>切中水果得分，一刀切中多个会有连击加分。水果落回底部会扣一颗心，切到炸弹则直接结束。</p>
+            <button class="button button--solid" type="button" data-start>开始游戏 <span>↗</span></button>
+            <small>鼠标 / 触屏均可 · 含音效，可在下方关闭</small>
+          </div>
+        </div>
+
+        <div class="game-overlay" data-overlay="end" hidden>
+          <div class="overlay-card">
+            <p class="eyebrow" data-end-eyebrow>GAME OVER</p>
+            <h2 data-end-title>这局，<br><em>切得不错。</em></h2>
+            <p class="end-score">本局 <b data-end-score>0</b> 分 · 最高 <b data-end-best>0</b> 分</p>
+            <p class="end-note" data-end-note></p>
+            <button class="button button--solid" type="button" data-restart-overlay>再来一局 <span>↗</span></button>
+            <small>按空格键也可以重新开始</small>
+          </div>
+        </div>
+      </div>
+
+      <noscript><p class="game-noscript">这个小游戏由 Canvas 与 Web Audio 驱动，需要开启 JavaScript 才能游玩。</p></noscript>
+
+      <div class="game-toolbar">
+        <div class="toolbar-actions">
+          <button class="game-button" type="button" data-restart>重新开始</button>
+          <button class="game-button game-button--sound" type="button" data-sound aria-pressed="true">音效：开</button>
+        </div>
+        <p class="toolbar-best">最高分 <b data-best>0</b> <span>· 记录保存在本机</span></p>
+      </div>
+      <p class="game-hint">小提示：横着划比戳单点更容易连击。切西瓜和这个博客共用同一套外观，切换风格时连刀光都会变色。</p>
+    </section>
+
+    <section class="game-rules" aria-label="玩法说明">
+      <article class="rule-card reveal"><span class="rule-num">01</span><h2>划开它</h2><p>按住鼠标左键或直接用手在屏幕上拖动，刀光穿过水果就切开。一刀切中两个以上，触发连击加分。</p></article>
+      <article class="rule-card reveal reveal--delay"><span class="rule-num">02</span><h2>别漏掉</h2><p>完整落回底部的水果会扣掉一颗心，三颗用完游戏结束。越往后抛得越密，也越容易同时出现好几个。</p></article>
+      <article class="rule-card reveal reveal--delay-2"><span class="rule-num">03</span><h2>躲炸弹</h2><p>黑色、带引线的那颗是炸弹，前十二秒不会出现，之后概率逐渐变高。划到它，这一局立刻结束。</p></article>
+    </section>
+
+    <p class="game-back"><a class="text-link" href="/">← 回到博客首页 <span>↗</span></a></p>
+  </main>
+
+  <footer class="site-footer page-width"><div class="footer-top"><a class="brand" href="/"><span class="brand__mark">z.</span><span class="brand__copy"><strong>Mr zou</strong><small>notes / things / life</small></span></a><p>把好奇心做成作品<br>把普通的一天认真收藏。</p><div class="footer-links"><a href="/archives/">归档</a><a href="/#about">关于</a><a href="https://github.com/Mrzouning/Mrzouning.github.io" target="_blank" rel="noopener">GitHub ↗</a></div></div><div class="footer-bottom"><span>© <span data-current-year>2026</span> Mr zou</span><span>made with curiosity · <a href="#main-content">回到顶部 ↑</a></span></div></footer>
+
+  <script src="/search-index.js"></script>
+  <script src="/main.js"></script>
+  <script src="/games/watermelon/game.js"></script>
+</body>
+</html>
